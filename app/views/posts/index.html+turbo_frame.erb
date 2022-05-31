@@ -1,0 +1,17 @@
+<!-- otan kanw click sto load more posts, ginetai respond me ena turbo frame page_handler -->
+<%= turbo_frame_tag "page_handler" do %>
+  <%= turbo_stream_action_tag(
+    "append",
+    target: "posts",
+    template: %(#{render @posts}) 
+  ) %>  <!-- turbo stream pou kanei append ta @posts sth lista me ta post -->
+  <%= turbo_stream_action_tag(
+    "replace",
+    target: "pagination",
+    template: %(#{render "pagination", pagy: @pagy})
+    ) %>  <!-- turbo stream pou kanei replace to content tou pagination div me ena updated version tou pagination -->
+<% end %>
+<!-- otan o user kanei click to link, stelnetai ena turbo frame request sto /posts, to Rails vlepei to index.html+turbo_frame.erb view
+  kai kanei respond me to content tou view, san HTML -->
+<!-- To Turbo vlepei to response sth meria tou client, kai kanei replace to content tou adeiou turbo frame tag page_handler, me duo elements turbo-stream kai meta ektelei ta actions tous -->
+<!-- Apotelesma, to neo set twn post ginetai appended sti lista me ta hdh yparxonta, kai to load more posts link ginetai updated wste na kanei fetch to content ths epomenhs selidas -->

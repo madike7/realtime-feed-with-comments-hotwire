@@ -1,0 +1,7 @@
+<!-- turbo frame me to idio id gia na kanw replace to frame tou post -->
+<%= turbo_frame_tag dom_id(@post) do %>
+  <div class="card post-edit mt-2 p-1 col-md-8 mx-auto">
+    <h3>Editing Post</h3>
+    <%= render 'form', post: @post %>
+  </div>
+<% end %>

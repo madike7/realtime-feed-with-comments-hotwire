@@ -1,0 +1,30 @@
+<!-- form gia to create kai to edit tou comment -->
+<!-- otan kanw submit, i forma ginetai clear me ton stimulus controller reset_form -->
+<%= form_with(model: [post, comment], data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }) do |form| %>
+  <% if comment.errors.any? %>  <!-- sto edit, emfanizw ta error messages ean kati paei strava. sto create, deixnw error flash message mesw tou comments controller -->
+    <div id="error_explanation">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <!--  pernaw to parent_id, ean yparxei-->
+  <div class="field">
+  <% if !parent.nil? %>
+    <%= form.hidden_field :parent_id, value: "#{parent.id}" %>
+  <% end %>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <!-- me ton auto_grow controller, otan pataw enter enw grafw to comment, to height tis form auksanetai kata mia grammh, wste na mhn xreiazetai na scrollarw kai na vlepw oloklhro to body -->
+    <%= form.text_area :body, id: 'h', placeholder: "Leave a reply", class: "form-control", data: { controller: "auto-grow-form"}, 'data-auto-grow-form-target' => 'input', 'data-action' => 'input->auto-grow-form#resize' %>
+    <%#= form.text_area :body, placeholder: "Leave a reply", class: "form-control", data: {controller: "autogrow" } %>
+    <%= form.submit  class: "btn btn-sm btn-primary ms-1", id: "button" %>
+  </div>
+  <!-- mono sto edit, to emfanizw gia na mporw na kanw replace to frame ean thelw na akyrwsw to edit -->
+  <%= link_to "Cancel Edit", comment, class: "btn btn-sm btn-link bi bi-x shadow-none" if form.object.persisted? %>
+<% end %>

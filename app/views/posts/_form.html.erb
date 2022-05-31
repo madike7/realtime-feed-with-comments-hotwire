@@ -1,0 +1,19 @@
+<div class="card p-2 mt-2">
+<%= simple_form_for(@post) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.rich_text_area :body , placeholder: "What are you thinking?",  autofocus: true %>
+  </div>
+
+  <div class="form-actions mt-2 float-end">
+    <% if @post.persisted? %>
+      <%= link_to "Cancel Edit", @post, class: "me-2" %>
+    <% else %>
+      <%= link_to "Cancel", posts_path, class: "me-2" %>
+    <% end %>
+    <%= f.button :submit, class: "btn btn-dark shadow-none" %>
+  </div>
+<% end %>
+</div>

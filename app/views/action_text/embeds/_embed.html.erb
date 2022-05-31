@@ -1,0 +1,14 @@
+<!-- pws emfanizontai ta embeds tou user mesw tou trix editor -->
+<% if embed.video? %>
+  <div class="embed-container">
+    <%= embed.html.html_safe %>
+  </div>
+<% elsif embed.html || embed.rich? %>
+  <div class="d-flex justify-content-center">
+    <%= embed.html.html_safe %>
+  </div>
+<% elsif embed.photo? %>
+  <%= link_to image_tag(embed.fields["url"]), embed.fields["url"], target: :_blank %>
+<% elsif embed.link? %>
+  <%= link_to embed.id, embed.id, target: :_blank %>
+<% end %>

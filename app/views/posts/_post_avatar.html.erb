@@ -1,0 +1,28 @@
+<!-- partial pou emfanizei to avatar tou kathe xrhsth 
+An pame to pontiki panw sto avatar emfanizetai ena popup me to avatar megalytero,
+to username kai tin hmeromhnia eggrafhs tou user -->
+<span class="hoverWrapper">
+  <% if post.user.avatar.attached? %>
+    <%= image_tag post.user.avatar.variant(resize: "40x40!"), class: "rounded-circle"%>
+  <% else %>
+    <%= image_tag post.user.gravatar_url, width: 40, class: "rounded-circle"%>
+  <% end %>
+
+  <div class="card p-1" id="hoverContent">
+    <div class="d-flex justify-content-center p-2">
+      <% if post.user.avatar.attached? %>
+        <%= image_tag post.user.avatar.variant(resize: "100x100!"), class: "rounded-circle" %>
+      <% else %>
+        <%= image_tag post.user.gravatar_url, width: 100, class: "rounded-circle" %>
+      <% end %>
+    </div>
+    <div class="card p-1 post-edit">
+      <div class="flex-row text-center">
+        <%= post.user.username %>  
+      </div>
+      <span class="text-center">
+        Joined: <%= post.user.created_at.strftime("%B %Y") %>
+      </span>
+    </div>
+  </div>
+</span>

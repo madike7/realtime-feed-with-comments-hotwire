@@ -1,0 +1,11 @@
+<%= turbo_stream_from comment, :comments %> <!-- stream pou akouei gia updates sto comment, alla me target ta chrildren comments tou -->
+
+<div id="<%= dom_id(comment) %>_with_comments">
+  <%= render comment %> <!-- kanw render to partial _comment.html.erb pou emfanizei to comment -->
+
+  <!-- An to comment exei replies se auto, dhladh children comments, kanw render to collection comment.comments -->
+  <!-- Etsi, gia kathe child, ksanakanw render to partial comment_with_replies, to opoio kanei render to idio to child comment, kai se periptwsh pou auto einai parent allwn comment, emfanizei kai auta k.o.k-->
+  <div class="comment-border" id="<%= dom_id(comment) %>_comments"> <!-- dom_id gia to comment.rb-->
+    <%= render partial: "comments/comment_with_replies", collection: comment.comments.includes(:user).order(id: :desc), as: :comment %>
+  </div>
+</div>

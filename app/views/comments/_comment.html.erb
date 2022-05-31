@@ -1,0 +1,42 @@
+<!-- partial gia tin emfanish tou comment -->
+<%= turbo_stream_from comment %> <!-- stream pou akouei gia updates sto comment -->
+<%= turbo_frame_tag comment do %> <!-- perikleiw kathe comment me ena frame gia na kanw update to frame otan kanw edit -->
+  <div class="card mt-2">
+    <div class="d-flex flex-row rounded comment-row p-2">
+      <% if comment.deleted_at.present? %> <!-- soft-delete / den to xrhsimopoiw -->
+        <i><%= comment.user.username %>'s comment has been deleted</i> <!-- no use -->
+      <% else %>
+        <div class="p-1">
+          <%= render partial: 'comments/comment_avatar', locals: { comment: comment } %> <!-- kanw render to partial pou emfanizei to avatar tou comment.user -->
+        </div>
+        <div class="w-100" style="overflow: hidden;">
+          <div class="d-flex flex-row align-items-center"> <strong class="me-2"><%= comment.user.username %></strong> <span class="dot"> </span> <small class="ms-2 text-muted"> <%= time_ago_in_words(comment.created_at) %> ago </small>
+            <div class="d-flex ms-auto d-none"
+              data-controller='check-author'
+              data-check-author-author-id-value='<%= comment.user.id %>' > <!-- elegxw opws kai sto post partial, an o current user einai o comment author gia na emfanisw ta edit kai delete buttons -->
+              <%#= link_to "Edit", edit_post_comment_path(comment.post, comment), class: "me-2" %>
+              <!-- sto route.rb kanw resources :comments, kai etsi exw to path gia edit kai delete comment xwris na xreiazetai to post_comment_path -->
+              <%= link_to edit_comment_path(comment), class: "btn btn-sm shadow-none me-1" do %> <!-- edit, kanei replace to comment me thn edit form -->
+                <i class="bi bi-pencil-fill"></i>
+              <% end %>
+              <%= button_to comment_path(comment), class: "btn btn-sm shadow-none", method: :delete, data: { confirm: "Are you sure?" } do %> <!-- destroy -->
+                <i class="bi bi-trash-fill"></i>
+              <% end %>
+            </div>
+          </div>
+          <p class="text-justify comment-text mb-0"><%= comment.body %></p>
+          <!-- REPLY FORM -->
+          <!-- xrhsimopoiw to collapse tou bootstrap gia na emfanizw kai na kryvw th reply form se ena comment -->
+          <button class="btn btn-link btn-sm bi bi-reply shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample-<%= comment.id %>" aria-expanded="false" aria-controls="collapseExample" style="margin: 0px;padding: 0px"> 
+            Reply
+          </button>
+          <div class="collapse" id="collapseExample-<%= comment.id %>">
+            <div class="mt-2" id="new_com">
+              <%= render partial: "comments/form", locals: { comment: Comment.new, post: comment.post, parent: comment } %> <!-- eimai mesa sto parent comment opou kanw render ti form, opote prepei na perasw san parent to comment sto opoio thelw na apanthsw. -->
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

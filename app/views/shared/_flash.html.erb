@@ -1,0 +1,34 @@
+<!-- flash message  -->
+<!-- to kanw render se olo to application -->
+
+<!-- Kathe message einai connected ston stimulus controller removals, o opoios
+ afairei to flash message apo to DOM, otan to animation teleiwsei -->
+<% flash.each do |flash_type, message| %>
+  <% if flash_type == "alert" %>
+    <div 
+      class="flash__message alert alert-danger" 
+      role="alert"
+      data-controller="removals"
+      data-action="animationend->removals#remove"
+    >
+      <%= message %>
+    </div>
+  <% elsif flash_type == "notice" %>
+    <div 
+      class="flash__message alert alert-success" 
+      role="alert"
+      data-controller="removals"
+      data-action="animationend->removals#remove"
+    >
+      <%= message %>
+    </div>
+  <% else %>
+    <div
+      class="flash__message"
+      data-controller="removals"
+      data-action="animationend->removals#remove"
+    >
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>

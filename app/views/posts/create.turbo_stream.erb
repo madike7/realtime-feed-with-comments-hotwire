@@ -1,0 +1,6 @@
+<%#= turbo_stream.prepend "posts", @post %>
+
+<!-- Turbo updates to turbo frame id "new_post" kai to kanei adeio -->
+<%= turbo_stream.update Post.new, "" %> 
+<!-- kanw render stin othoni to analogo flash apo ton controller -->
+<%= render_flash_messages %>

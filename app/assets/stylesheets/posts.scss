@@ -1,0 +1,49 @@
+// Place all the styles related to the posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+body {
+  background-color: #eee
+}
+
+.time {
+  font-size: 9px !important
+}
+
+.socials i {
+  font-size: 17px;
+  color: #212529;
+  cursor: pointer
+}
+
+.feed-image img {
+  width: 100%;
+  height: auto
+}
+
+.box {
+display: -webkit-box;
+-webkit-line-clamp: 5; // number of lines
+-webkit-box-orient: vertical;  
+overflow: hidden;
+}
+.box-more {
+-webkit-line-clamp: unset !important;
+}
+
+.post-edit {
+  background: #b1bece;
+}
+
+.post-new {
+  background: #8b949d;
+}
+
+html { line-height: 1.5 }
+.hide { display: none; }
+.line-clamp {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}

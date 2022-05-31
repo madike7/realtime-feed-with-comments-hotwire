@@ -1,0 +1,19 @@
+<div id="pagination" class="d-flex justify-content-center mt-4">
+  <div>
+    <% if pagy.next %>  <!-- button pou kanei fetch tin epomenh selida twn posts, me ton controller autoclick ginetai automato click sto button otan emfanizetai stin othoni -->
+      <%= link_to(
+        "Load more posts",
+        posts_path(page: pagy.next),
+        class: 'btn btn-dark btn-sm shadow-none',
+        data: {
+          turbo_frame: "page_handler",
+          controller: "autoclick"
+        }
+      ) %> <!-- to link auto kanei target to page_handler Turbo Frame, etsi ta click se auto tha prepei na kanoun replace to content tou frame -->
+    <% end %>
+  </div>
+</div> 
+<!-- exontas target ena empty turbo frame, kanontas click sto link auto, kanonika tha ekane re-render to index.html me to empty page_handler -->
+<!-- gia na kanei render diaforetiko content san response apo ena Turbo Frame request, prepei na kanw update ton application controller wste na epitrepei turbo frame variants -->
+<!-- orizw tin turbo_frame_request_variant ston application_controller -->
+<!-- dhmiourgw to turbo frame variant : index.html+turbo_frame.erb -->

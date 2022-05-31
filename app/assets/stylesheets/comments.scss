@@ -1,0 +1,89 @@
+// Place all the styles related to the Comments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+body {
+  background-color: #eee
+}
+
+.card {
+  background-color: #fff;
+  border: none;
+  position: unset;
+}
+
+/*.form-color {
+  background-color: #fafafa;
+  border-radius: 0.25rem;
+}*/
+
+/*#h {
+  height: 46px;
+}*/
+
+.form-control {
+  height: 44px;
+  border-radius: 25px
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #35b69f;
+  outline: 0;
+  box-shadow: none;
+  text-indent: 10px
+}
+
+.comment-text {
+  font-size: 14px
+}
+
+.wish {
+  color: #35b69f
+}
+
+.user-feed {
+  font-size: 14px;
+  margin-top: 12px
+}
+.dot {
+  height: 7px;
+  width: 7px;
+  margin-top: 3px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block
+}
+
+.comment-widgets {
+  position: relative;
+}
+
+.comment-row {
+  //border-bottom: 1px solid transparent;
+  //padding: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.comment-row:hover {
+  background: #dbe0e6;
+}
+
+.comment-edit {
+  background: #b1bece;
+}
+
+.comment-border {
+  //border: 1px solid #fff;
+  //border-left-color: darkgrey;
+  border-left: 1px solid darkgray;
+  //position: relative;
+  padding-left: 2em;
+}
+
+.comment-form {
+  display: none;
+}

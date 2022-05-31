@@ -1,0 +1,75 @@
+<%= turbo_frame_tag dom_id(post) do %>
+<!--div class="container"-->
+  <div class="d-flex justify-content-center row">
+    <div class="col-md-8">
+      <div class="card border p-1 mt-2">
+        <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+          <div class="d-flex flex-row align-items-center feed-text">
+            <%= render partial: 'posts/post_avatar', locals: { post: post } %>
+            <div class="d-flex flex-column flex-wrap ms-2">
+              <span class="fw-bold"><%= post.user.username %></span>
+              <span class="text-black-50 time">
+                <%= post.updated_at.strftime("%H:%M %A, %B %e, %Y") %>
+              </span>
+            </div>
+          </div>
+          <div class="d-flex d-none"
+            data-controller='check-author'
+            data-check-author-author-id-value='<%= post.user.id %>' >
+            <div class="dropdown">
+              <button type="button" class="btn shadow-none dropdown" data-bs-toggle="dropdown">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end">
+                <!-- EDIT BUTTON -->
+                <%= link_to ' Edit Post', edit_post_path(post), class: 'dropdown-item btn shadow-none bi bi-pencil-fill', data: { turbo_frame: dom_id(post) } %>
+                <!-- DELETE BUTTON-->
+                <% if action_name == 'show' && controller_name == 'posts' %>
+                  <%= link_to ' Delete Post',  polymorphic_path(post, format: :html), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger bi bi-trash3-fill' %>
+                <% else %>
+                  <%= button_to  post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger' do %>  
+                    <i class="bi bi-trash3-fill"></i> Delete Post
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- TRUNCATE POST BODY -->
+        <div class="p-1" data-controller="link-new-tab">
+          <div data-controller="read-more" data-read-more-lines-value="3"
+              data-read-more-hide-class="hide"
+              data-read-more-truncate-class="line-clamp"
+              data-action="resize@window->read-more#render">
+            <div data-read-more-target="content">
+              <%= post.body %>
+            </div>
+            <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="moreButton" data-action="read-more#showMore">
+              Show more
+            </button>
+            <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="lessButton" data-action="read-more#showLess">
+              Show less
+            </button>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <!-- pernaw to static true wste h like_label na kanei broadcast to icon pou deixnei oti o user den exei kanei like sto post , otan kanw broadcast create ena neo post -->
+          <!-- gia to broadcast update otan ginetai edit ena post, epeidh den mporw na xrhsimopoihsw to current_user se partial,
+              tha emfanizei panta to like_icon( pou deixnei oti o user den exei kanei like), akoma kai stous users pou exoun kanei hdh like -->
+          <!-- den exw vrei akomh kapoio tropo poy na mporw na elegxw an oi users stous opoious ginetai broadcast to udpate exoun kanei like sto post 
+              opote pros stigmhs mporw na mhn kanw katholou broadcast update stous upoloipous users, kai na kanw live update mono ston current user pou kanei to edit, me turbo_stream.update ston controller. -->
+          <%= render 'posts/likes_link', post: post, static: true %>
+          
+          <%= link_to post, target: "_top", class: "btn shadow-none" do %>
+            <i class="bi bi-chat"></i>
+            <!-- live-update tou comment count -->
+            <span id='<%= dom_id(post)%>_comments_counter'>
+              <%= post.comments_count %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--/div-->
+<% end %>

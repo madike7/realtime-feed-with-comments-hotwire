@@ -1,0 +1,9 @@
+<!-- Vazw turbo frame gyrw apo tin new form me to idio id me to turbo frame tou index pou einai adeio.
+ Edw to @post einai neo record, ara eite "new_post" eite Post.new eite @post einai to idio -->
+<%= turbo_frame_tag @post do %>
+  <div class="card post-new p-1 mt-2">
+    <h3>New Post</h3>
+    <%= render 'form', post: @post %>
+  </div>
+<% end %>
+<%= link_to 'Back', posts_path %>
