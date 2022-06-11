@@ -2,12 +2,73 @@ class PostsController < ApplicationController
   include ActionView::RecordIdentifier
   before_action :set_post, only: %i[ edit update destroy ]
   before_action :is_author?, only: [:edit, :update, :destroy]
-  
+  POSTS_PER_PAGE = 5
+  COMMENTS_PER_POST_PAGE = 5
   # GET /posts
+  # Sto index pou emfanizw ola ta posts, thelw na kanw kai to search
+  # Ean o user kanei search sta dyo search forms, yparxoyn 3 periptwseis
+  # Gia kathe mia apo autes, allazw to @posts pou xrhsimopoiw gia na kanw render ta posts
   def index
-    #@posts = Post.all.order("created_at DESC")
-    #se kathe selida emfanizw 5 posts me prwto to pio neotera created
-    @pagy, @posts = pagy(Post.order(created_at: :desc), items: 5)
+    # PERIPTWSH 1 - An exei ginei submit mono to search gia query
+    if params[:query].present? && !params[:username].present?
+      @cursor = params[:cursor]
+      @posts = Post
+                    .search_text(params[:query])  # thelw mono ta posts pou periexoun ta params[:query]
+                    .where(@cursor ? ["posts.id < ?", @cursor] : nil)
+                    .order(id: :desc).take(POSTS_PER_PAGE)
+      @next_cursor = @posts.last&.id
+      @more_pages = @next_cursor.present? && @posts.count == POSTS_PER_PAGE
+
+      render "scrollable_list" if params[:cursor]
+    # PERIPTWSH 2 - An exei ginei submit mono to search gia username
+    elsif  params[:username].present? && !params[:query].present?
+      @cursor = params[:cursor]
+      @posts =  Post
+                    .search_username(params[:username]) # thelw mono ta posts pou periexoun ta params[:username]
+                    .where(@cursor ? ["posts.id < ?", @cursor] : nil)
+                    .order(id: :desc).take(POSTS_PER_PAGE)
+      @next_cursor = @posts.last&.id
+      @more_pages = @next_cursor.present? && @posts.count == POSTS_PER_PAGE
+
+      render "scrollable_list" if params[:cursor]
+    # PERIPTWSH 3 - An exei ginei submit kai to search gia query kai gia username
+    elsif  params[:query].present? && params[:username].present?
+      @cursor = params[:cursor]
+      @posts =  Post
+                    .search_username(params[:username]).search_text(params[:query]) # thelw ta posts pou periexoun ta params[:username] kai params[:query]
+                    .where(@cursor ? ["posts.id < ?", @cursor] : nil)
+                    .order(id: :desc).take(POSTS_PER_PAGE)
+      @next_cursor = @posts.last&.id
+      @more_pages = @next_cursor.present? && @posts.count == POSTS_PER_PAGE
+
+      render "scrollable_list" if params[:cursor]
+    # NO SEARCH - ean den exei ginei search (default) kanw render ola ta posts se descending order
+    else 
+      # CURSOR-BASED PAGINATION
+      # se oles tis periptwseis den thelw na emfanizontai ola ta post se mia selida alla thelw mono POSTS_PER_PAGE ana selida
+      # kathe unique key pou mporw na kanw order by mporei na xrhsimopoiithei ws cursor, opote tha xrhsimopoiwsw to id twn posts san cursor
+      # kathe epomeno post tha exei id < apo to cursor, etsi akoma kai an diagrafei to post tou cursor, to epomeno post tha ginei returned swsta
+
+      # Thelw na petyxw kati san infinite scrolling, opou h epomenh selida twn posts emfanizetai katw apo to teleutaio kathe fora pou ftanw sto telos tis selidas
+      # Epeidh tin idia stigmh thelw na kanw create kai delete posts se real time, auto shmainei pws otan afairw ena post allazei kai i lista twn posts se kathe selida
+      # kai ean xrhsimopoiousa ena gem (px pagy) pou xrhsimopoiei offset pagination, den tha epistrefontan ta swsta posts tis epomenhs selidas
+      # px. an exw [A, B, C, D, E, F] posts kai kathe selida exei 3 h prwth tha exei ta [A, B, C] 
+      # ean afairesw to B tha exoun meinei [A, C] stin prwth selida kai synolika sto database [A, C, D, E, F]
+      # Parolo pou sto 1o page exw mono 2 results anti gia 3, to 2o page tha xrhsimopoihsei tin updated database.
+      # Etsi otan kanw request to 2o page, tha nomizei oti to D einai meros tou 1ou page, kai tha prosthesei ta epomena 3 posts (se auth thn periptwsh ta 2 pou menoun) : [A, C, E, F]
+      # To post D leipei.
+      # Me to cursor based pagination, anti na zhthsw ta posts tou next page, zhtaw to epomeno post meta to C, ara tha parw to swsto set twn post: [A, C, D, E, F]
+      @cursor = params[:cursor]
+      @posts = Post
+                    .where(@cursor ? ["id < ?", @cursor] : nil) # to epomeno post na exei mikrotero id apo to id tou cursor
+                    .order(id: :desc)                           # ola ta posts kata fthinousa seira
+                    .take(POSTS_PER_PAGE)                       # kathe fora thelw na ginontai return POSTS_PER_PAGE (px. 5) posts
+      
+      @next_cursor = @posts.last&.id  # thetw next_cursor to teletaio post tis listas
+      @more_pages = @next_cursor.present? && @posts.count == POSTS_PER_PAGE
+      render "scrollable_list" if params[:cursor] # kanw render to template scrollable_list mesw tou unique id tou turbo_frame tou next_page partial
+                                                  # se auto kanw render ta posts me id < cursor kai sth synexeia ksanakanw render to next_page partial
+    end
     #mporw na dhmiourghsw neo post apo to index
     @post = Post.new
   end
@@ -23,6 +84,20 @@ class PostsController < ApplicationController
       #render "index"
       redirect_to posts_path, alert: "Post was not found"
     end
+    #GEARED PAGINATION 
+    #@comments = set_page_and_extract_portion_from @post.comments.where(parent_id: nil).includes(:user, :post, comments: :user).order(id: :desc), per_page: [5]
+    
+    #CURSOR-BASED PAGINATION COMMENTS
+    #idios tropos me ta post me ta antistoixa views
+    @cursor = params[:cursor]
+    @comments = @post.comments
+                              .where(parent_id: nil)  #kanw pagination mono sta top comments pou den exoun parent (Dhladh auta pou einai apanthsh se post kai oxi kapoio allo comment)
+                              .where(@cursor ? ["id < ?", @cursor] : nil)
+                              .includes(:user, :post, comments: :user) # improve performance, includes :user, kanw fetch olous tous users pou sysxetizontai me ta comments
+                              .order(id: :desc).take(COMMENTS_PER_POST_PAGE)
+    @next_cursor = @comments.last&.id
+    @more_pages = @next_cursor.present? && @comments.count == COMMENTS_PER_POST_PAGE
+    render "comments/scrollable_comment_list" if params[:cursor] 
   end
 
   # GET /posts/new

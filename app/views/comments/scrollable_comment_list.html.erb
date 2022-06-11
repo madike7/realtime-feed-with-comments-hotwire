@@ -1,0 +1,5 @@
+<!-- idia logikh me to pagination gia ta posts -->
+<%= turbo_frame_tag "comments-page-#{@cursor}" do %>
+  <%= render partial: "comments/comment_with_replies", collection: @comments, as: :comment %>
+  <%= render partial: "comments/next_comment_page" %>
+<% end %>

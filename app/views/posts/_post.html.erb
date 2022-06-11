@@ -5,88 +5,86 @@
   otan pathsw na kanw update to post, to frame pou perieixe th forma, ginetai replaced apo to frame me to updated post -->
 
 <%= turbo_frame_tag dom_id(post) do %>
-<!--div class="container"-->
-  <div class="d-flex justify-content-center row">
-    <div class="col-md-8">
-      <div class="card border p-1 mt-2">
-        <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
-          <div class="d-flex flex-row align-items-center feed-text">
-            <%= render partial: 'posts/post_avatar', locals: { post: post } %>
-            <div class="d-flex flex-column flex-wrap ms-2">
-              <span class="fw-bold"><%= post.user.username %></span>
-              <span class="text-black-50 time">
-                <%= post.updated_at.strftime("%H:%M %A, %B %e, %Y") %>
-              </span>
-            </div>
+  <div class="card border p-1 mt-2">
+    <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+      <div class="d-flex flex-row align-items-center feed-text">
+        <%= render partial: 'posts/post_avatar', locals: { post: post } %>
+        <div class="d-flex flex-column flex-wrap ms-2">
+          <div class="d-flex align-items-center">
+            <span class="fw-bold"><%= post.user.username %></span>
+            <span class="ms-2 dot"> </span>
+            <span class="ms-2 text-muted">#<%= post.id %></span>
           </div>
-          
-          <!-- DROPDOWN TO EDIT AND DELETE-->
-          <!-- elegxw an o current user einai kai author tou post wste na tou emfanizw ta buttons gia edit kai delete
-          Epeidh to current_user einai global helper tou gem devise, den mporei na xrhsimopoihthei se ena partial pou ginetai broadcast me turbo stream
-          Partials used for turbo streaming have to be free of global references, as they’re rendered by the ApplicationRenderer, not within the context of a specific request. 
-          Pairnw to current-user-id apo ena meta(tag) sto head tou application.html wste na to xrhsimopoihsw mesa ston controller -->
-          <!-- sto _post partial mporousa na kanw kanonika ton elegxo me to current_user [if current_user == post.user] kathws den to kanw broadcast -->
-          <!-- sto _post_to_broadcast einai aparaithto wste otan kanw create h update ena post na mhn yparxoun oi epiloges gia edit h delete stous mh authors -->
-          <div class="d-flex d-none"
-            data-controller='check-author'
-            data-check-author-author-id-value='<%= post.user.id %>' >
-            <div class="dropdown">
-              <button type="button" class="btn shadow-none dropdown" data-bs-toggle="dropdown">
-                <i class="bi bi-three-dots-vertical"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end"> <!-- dropdown me tis epiloges edit kai delete post -->
-                <!-- EDIT BUTTON -->
-                <%= link_to ' Edit Post', edit_post_path(post), class: 'dropdown-item btn shadow-none bi bi-pencil-fill', data: { turbo_frame: dom_id(post) } %>
-                <!-- DELETE BUTTON-->
-                <% if action_name == 'show' && controller_name == 'posts' %> <!-- otan eimai sto show tou post, thelw otan diagrafetai to post na kanw redirect sto index me ola ta post, gi auto den thelw na kanw destroy as turbo_stream alla as HTML -->
-                  <%= link_to ' Delete Post',  polymorphic_path(post, format: :html), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger bi bi-trash3-fill' %>
-                <% else %> <!-- se kathe allh periptwsh den thelw na kanw redirect ton user poy kanei delete  opote kanw destroy as turbo_stream -->
-                  <%= button_to  post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger' do %>  
-                    <i class="bi bi-trash3-fill"></i> Delete Post
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
+          <span class="text-black-50 time">
+            <%= post.updated_at.strftime("%H:%M %A, %B %e, %Y") %>
+          </span>
         </div>
-        <!-- TRUNCATE POST BODY -->
-        <!-- stimulus controller poy emfanizei ena button Show more otan to post body pianei perissotero apo x grammes
-        wste an to post pianei polles grammes na mhn emfanizetai oloklhro. 
-        Kanontas click, emfanizetai oloklhro to post me thn epilogh Show less pou to epanaferei -->
-        <div class="p-1" data-controller="link-new-tab">  <!-- o link_new_tab_controller, anoigei kathe link tou post.body se neo tab otan kanw click sto link -->
-          <div data-controller="read-more" data-read-more-lines-value="3"
-              data-read-more-hide-class="hide"
-              data-read-more-truncate-class="line-clamp"
-              data-action="resize@window->read-more#render">
-            <div data-read-more-target="content">
-              <%= post.body %>
-            </div>
-            <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="moreButton" data-action="read-more#showMore">
-              Show more
-            </button>
-            <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="lessButton" data-action="read-more#showLess">
-              Show less
-            </button>
-          </div>
-        </div>
-        <div class="d-flex justify-content-end">
-          <!-- LIKES -->
-          <!-- edw kanw render to partial pou xeirizetai to button gia ta likes -->
-          <%= render 'posts/likes_link', post: post, static: nil %>
+      </div>
 
-          <!-- to link gia na dw ena post einai mesa se turbo frame,
-          sto posts#show den yparxei turbo frame me to idio id
-          vazw link na kanei target to "_top" frame wste na kanei replace olh th selida -->
-          <%= link_to post, target: "_top", class: "btn shadow-none" do %>
-            <i class="bi bi-chat"></i>
-            <!-- live update tou comment count -->
-            <span id='<%= dom_id(post)%>_comments_counter'> <!-- target pou kanw broadcast to comments_count gia kathe neo h deleted comment -->
-              <%= post.comments_count %>
-            </span>
-          <% end %>
+      <!-- DROPDOWN TO EDIT AND DELETE-->
+      <!-- elegxw an o current user einai kai author tou post wste na tou emfanizw ta buttons gia edit kai delete
+      Epeidh to current_user einai global helper tou gem devise, den mporei na xrhsimopoihthei se ena partial pou ginetai broadcast me turbo stream
+      Partials used for turbo streaming have to be free of global references, as they’re rendered by the ApplicationRenderer, not within the context of a specific request. 
+      Pairnw to current-user-id apo ena meta(tag) sto head tou application.html wste na to xrhsimopoihsw mesa ston controller -->
+      <!-- sto _post partial mporousa na kanw kanonika ton elegxo me to current_user [if current_user == post.user] kathws den to kanw broadcast -->
+      <!-- sto _post_to_broadcast einai aparaithto wste otan kanw create h update ena post na mhn yparxoun oi epiloges gia edit h delete stous mh authors -->
+      <div class="d-flex d-none"
+        data-controller='check-author'
+        data-check-author-author-id-value='<%= post.user.id %>' >
+        <div class="dropdown">
+          <button type="button" class="btn shadow-none dropdown" data-bs-toggle="dropdown">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end"> <!-- dropdown me tis epiloges edit kai delete post -->
+            <!-- EDIT BUTTON -->
+            <%= link_to ' Edit Post', edit_post_path(post), class: 'dropdown-item btn shadow-none bi bi-pencil-fill', data: { turbo_frame: dom_id(post) } %>
+            <!-- DELETE BUTTON-->
+            <% if action_name == 'show' && controller_name == 'posts' %> <!-- otan eimai sto show tou post, thelw otan diagrafetai to post na kanw redirect sto index me ola ta post, gi auto den thelw na kanw destroy as turbo_stream alla as HTML -->
+              <%= link_to ' Delete Post',  polymorphic_path(post, format: :html), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger bi bi-trash3-fill' %>
+            <% else %> <!-- se kathe allh periptwsh den thelw na kanw redirect ton user poy kanei delete  opote kanw destroy as turbo_stream -->
+              <%= button_to  post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger' do %>  
+                <i class="bi bi-trash3-fill"></i> Delete Post
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
+    <!-- TRUNCATE POST BODY -->
+    <!-- stimulus controller poy emfanizei ena button Show more otan to post body pianei perissotero apo x grammes
+    wste an to post pianei polles grammes na mhn emfanizetai oloklhro. 
+    Kanontas click, emfanizetai oloklhro to post me thn epilogh Show less pou to epanaferei -->
+    <div class="p-1" data-controller="link-new-tab">  <!-- o link_new_tab_controller, anoigei kathe link tou post.body se neo tab otan kanw click sto link -->
+      <div data-controller="read-more" data-read-more-lines-value="3"
+          data-read-more-hide-class="hide"
+          data-read-more-truncate-class="line-clamp"
+          data-action="resize@window->read-more#render">
+        <div data-read-more-target="content">
+          <%= post.body %>
+        </div>
+        <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="moreButton" data-action="read-more#showMore">
+          Show more
+        </button>
+        <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="lessButton" data-action="read-more#showLess">
+          Show less
+        </button>
+      </div>
+    </div>
+    <div class="d-flex ms-auto">
+      <!-- LIKES -->
+      <!-- edw kanw render to partial pou xeirizetai to button gia ta likes -->
+      <%= render 'posts/likes_link', post: post, static: nil %>
+
+      <!-- to link gia na dw ena post einai mesa se turbo frame,
+      sto posts#show den yparxei turbo frame me to idio id
+      vazw link na kanei target to "_top" frame wste na kanei replace olh th selida -->
+      <%= link_to post, target: "_top", class: "btn shadow-none" do %>
+        <i class="bi bi-chat"></i>
+        <!-- live update tou comment count -->
+        <span id='<%= dom_id(post)%>_comments_counter'> <!-- target pou kanw broadcast to comments_count gia kathe neo h deleted comment -->
+          <%= post.comments_count %>
+        </span>
+      <% end %>
+    </div>
   </div>
-<!--/div-->
 <% end %>

@@ -24,10 +24,11 @@
   .hoverWrapper #hoverContent {
     display: none;
     position: absolute;
-    //background-color: transparent;
-    color: #184587;
-    font-weight: 600;
-    background: #384450;
+    background-color: transparent;
+    //color: #2b4162;
+    color:#3b4957;
+    font-weight: 500;
+    //background: transparent;
     margin-left: -10em;
     margin-top: -6em;
     //padding: 10px;
@@ -36,4 +37,7 @@
   
   .hoverWrapper:hover #hoverContent {
     display: block;
+  }
+  .hover-body {
+    background: #a3b0c1;
   }

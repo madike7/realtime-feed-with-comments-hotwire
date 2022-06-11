@@ -1,40 +1,98 @@
 <div class="container mb-5">
   <div class="text-center"><h1>Fan Wall</h1></div>
+
   <%= turbo_stream_from :posts %> <!-- akouei gia broadcasts, me target 'posts' -->
   <%= turbo_stream_from [current_user, :posts] %> <!-- gia na kanw broadcast ston user pou kanei ekeinh th stigmh like sto post, to neo icon -->
-  
-  <!-- edw kanw broadcast apo to model post, to post_count se kathe create kai destroy -->
-  <span id="post_counter"><%= render partial: 'posts/count', locals: { count: @pagy.count } %></span> <!-- me to @pagy pairnw to synoliko arithmo twn post, kai oxi mono tis selidas pou vriskomai -->
 
-  <div class="d-flex justify-content-center row">
-    <div class="col-md-8">
-      <%#= turbo_frame_tag :post_form do %> <!-- sto postscontroller kanw replace ti forma -->
-        <!-- button gia to neo post pou emfanizei to frame me th forma 
-        kanontas click sto button, kanoume replace to adeio "new_post" turbo_frame me th forma gia to new post.
-        Otan ginei to submit, ginetai prepend to new post sti lista twn posts kai update to "new_post" frame pali se adeio -->
-        <div class="row">
-          <%= link_to "New post", new_post_path, data: { turbo_frame: "new_post" }, class: "btn btn-primary shadow-none" %>
-        </div>
-        
-        <div class="row">
-          <!-- adeio frame tag pou ginetai replaced me ti new form-->
-          <%= turbo_frame_tag "new_post" %>
-        </div>
-      <%# end %>
+  <div data-controller="reset-search"> <!-- stimulus controller pou kanei reset tis search forms -->
+    <div class="d-flex justify-content-center">
+      <!-- SEARCH FORMS -->
+      <%= form_with url: posts_path,
+                    method: :get,
+                    data: { controller: 'submit-search-form', # elegxw gia input changes sti forma kai kalw ena action ston stimulusc controller wste na kanei submit ti forma
+                            submit_search_form_target: 'form', # kanei to form element diathesimo  ston controller ws target (mporw na to xrhsimopoihsw ws this.formTarget ston controller)
+                            turbo_frame: 'search',  # den vazw tin forma mesa sto turbo frame, giati kathe fora pou egrafa ena xarakthra kai ginotan submit to search, tha exana to focus apo to search bar kathws ginetai replace oloklhro to frame
+                            turbo_action: 'advance' # update the URL on search
+                            } do |form| %> 
+                            <!-- i forma kanei target to turbo_frame: search pou perikleiei ti lista me ta posts -->
+          <div class="d-flex ms-auto">
+            <!-- search posts body -->
+            <%= form.text_field :query,
+                            class: "search__input ms-2",
+                            #style: "height: 30px",
+                            placeholder: 'Search posts',
+                            value: params[:query], # ti pairnw otan ginetai submit i form
+                            autocomplete: 'off',
+                            data: { reset_search_target: 'clearquery', # target clearquery gia na kanw clear ti forma otan kanw click sto link Clear Search mesw tou reset_search controller
+                            action: 'input->submit-search-form#search' } %> <!-- listens for event: input changes,kai kanei to action: search tou controller (dhladh submit to target form) -->
+                                                                            <!-- gia to submit xrhsimopoiw to .requestSubmit(), alliws the eixa full page refresh -->
+            
+            <!-- search by username -->
+            <%= form.text_field :username,
+                            class: "search__input ms-2",
+                            #style: "height: 30px",
+                            placeholder: 'Search by user',
+                            value: params[:username], # ti pairnw otan ginetai submit i form
+                            autocomplete: 'off',
+                            data: { reset_search_target: 'clearusername', # target clearquery gia na kanw clear ti forma otan kanw click sto link Clear Search mesw tou reset_search controller
+                            action: 'input->submit-search-form#search' } %> <!-- listens for event: input changes,kai kanei to action: search tou controller (dhladh submit to target form) -->
+                                                                            <!-- gia to submit xrhsimopoiw to .requestSubmit(), alliws the eixa full page refresh -->
+          </div>
+      <% end %>
     </div>
+    
+    <%= turbo_frame_tag 'search', target: '_top' do %> <!-- perikleiw ti lista me ta posts se ena turbo_frame_tag 'search' -->
+      <div class="d-flex justify-content-center"> <!-- link pou kanei reset tis search forms mesw tou stimulus controller reset_search -->
+        <%= link_to 'Clear search', request.path, class: 'btn shadow-none cancel-search', data: { action: "click->reset-search#clean", turbo_frame: 'search', turbo_action: 'advance'} if request.query_parameters.any? %>
+      </div>
+      <!-- An ginei submit opoiadhpote apo tis dyo search forms, h kai oi duo, pairnw ta params[:query] h params[:username] antistoixa -->
+      <% if params[:query].present? || params[:username].present? %> <!-- Etsi elegxw an exei ginei kapoia forma submit -->
+        <div class="d-flex justify-content-center">
+          <h3 class="m-0"><span class="badge rounded-pill search-badge"> <!-- emfanizw posa search results epistrafhkan, se kathe periptwsh -->
+            Search Results - <%= Post.search_text(params[:query]).search_username(params[:username]).count if params[:username].present? && params[:query].present? %> <%= Post.search_text(params[:query]).count if !params[:username].present? && params[:query].present? %> <%= Post.search_username(params[:username]).count if params[:username].present? && !params[:query].present? %> Posts
+          </span></h3>
+        </div>
+        <% if @posts.empty? %> <!-- an den yparxoun patching posts, emfanizw auto -->
+          <p class=" mt-2 text-center fw-bold fst-italic">No matching posts.</p>
+        <% else %>  <!-- alliws, emfanizw ta matching posts, mesw tou posts controller, analoga me tin periptwsh -->
+          <div class="d-flex justify-content-center row">
+            <div class="col-md-8">
+              <%= render @posts %>
+              <%= render partial: "next_page" %> <!-- render to partial pou perierxei to turbo_frame wste na emfanisw th lista me ta epomena posts -->
+            </div>
+          </div>
+        <% end %>
+      <% else %> <!-- An kamia search form den exei ginei submit emfanizw ola ta posts -->
+        <div class="d-flex justify-content-center row">
+          <div class="mt-2 d-flex justify-content-around">
+            <!-- edw kanw broadcast apo to model post, to post_count se kathe create kai destroy -->
+            <span class="post_count mt-2" id="post_counter"><%= render partial: 'posts/count', locals: { count: Post.all.count } %></span>
+            <!-- button gia to neo post pou emfanizei to frame me th forma 
+            kanontas click sto button, kanoume replace to adeio "new_post" turbo_frame me th forma gia to new post.
+            Otan ginei to submit, ginetai prepend to new post sti lista twn posts kai update to "new_post" frame pali se adeio -->
+            <%= link_to "New post", new_post_path, data: { turbo_frame: "new_post" }, class: "btn post-new-btn shadow-none" %>
+          </div>
+          <div class="col-md-8">
+            <!-- adeio frame tag pou ginetai replaced me ti new form-->
+              <%= turbo_frame_tag "new_post" %>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center row">
+          <div class="col-md-8">
+            <%= turbo_frame_tag :posts do %> <!-- turbo frame me id "posts" gyrw apo ti lista me ta posts -->
+            <!--div id="posts"-->  <!-- target posts opou kanw prepend sto model, gia kathe neo post, mporw na xrhsimopoihsw kateutheian auto anti gia to turbo_frame_tag :posts -->
+              <%= render @posts %>  <!-- kanei render to partial _post.html.erb gia kathe post -->
+            
+              <%# @posts.each do |post| %>  <!-- idio me to render @posts, protimw to syntomo -->
+                <%#= render partial: 'posts/post', locals: { post: post } %>
+              <%# end %>
+            <!--/div-->
+            <% end %>
+            
+            <%= render partial: "next_page" %>  <!-- render to partial pou perierxei to turbo_frame wste na emfanisw th lista me ta epomena posts -->
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </div>
-  <!-- adeio turbo frame pou tha pernaw to turbo stream content apo ton server -->
-  <!-- den thelw na kanw replace ta post tis selidas me ta posts tis epomenhs, alla na ta kanw append sto telos tis listas twn hdh yparxwn posts tis selidas pou eimai -->
-  <!-- me xrhsh turbo_frame mporw na kanw mono replace, opote tha prepei na xrhsimopoihsw turbo streams gia na kanw append to content tou next page -->
-  <%= turbo_frame_tag "page_handler" %> 
-  <%= turbo_frame_tag :posts do %> <!-- turbo frame me id "posts" gyrw apo ti lista me ta posts -->
-  <!--div id="posts"-->  <!-- target posts opou kanw prepend sto model, gia kathe neo post -->
-    <%= render @posts %>  <!-- kanei render to partial _post.html.erb gia kathe post -->
-  <!--/div-->
-    <%# @posts.each do |post| %>  <!-- idio me to render @posts, protimw to syntomo -->
-      <%#= render partial: 'posts/post', locals: { post: post } %>
-    <%# end %>
-  <% end %>
-  <%= render "pagination", pagy: @pagy %> <!-- pagination with pagy, kanw render to partial pagination pou exei to button "load more posts" -->
-  <!-- anti na exw to navbar me tis selides, exw ena button pou emfanizei ta post tis epomenhs selidas -->
 </div>

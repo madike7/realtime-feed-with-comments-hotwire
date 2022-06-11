@@ -1,5 +1,4 @@
 module ApplicationHelper
-  include Pagy::Frontend
 
   def render_flash_messages  #helper gia na kanw prepend ta flash messages sto id flash tou application view
     turbo_stream.prepend "flash", partial: "shared/flash"

@@ -46,6 +46,6 @@ class Comment < ApplicationRecord
   # kanw broadcast to neo arithmo comments, gia kathe create h destroy.
   def update_com_counter
     broadcast_update_to("posts", target: "#{dom_id(post)}_comments_counter", html: post.comments_count) # target sto post partial, pou einai link_to post#show kai ananewnetai kai sto index kai sto show
-    broadcast_update_to("posts", target: "comments_counter", html: post.comments_count) # target sto show tou post
+    broadcast_update_to("posts", target: "comments_counter", partial: 'comments/count', locals: { count: post.comments_count }) # target sto show tou post
   end
 end

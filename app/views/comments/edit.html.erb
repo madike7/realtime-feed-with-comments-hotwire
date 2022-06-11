@@ -1,7 +1,12 @@
 <!-- turbo frame me to idio id gia na kanw replace to frame tou comment -->
 <%= turbo_frame_tag @comment do %>
   <div class="comment-edit card p-1 mt-2">
-    <h6>Edit Comment:</h6>
+    <div class="d-flex justify-content-between">
+      <h4 class="m-2">Editing Comment <span class="text-muted">#<%= @comment.id %></span></h4>
+      <%= link_to @comment, class: "btn shadow-none" do %>
+        <i class="bi bi-x-circle fs-4"></i>
+      <% end %>
+    </div>
     <%= render "form", comment: @comment, post: @comment.post, parent: @comment.parent %> <!-- pernaw ta locals sto form giati xrhsimopoiw to edit _comment_path kai oxi edit_post_comment_path-->
   </div>
 <% end %>

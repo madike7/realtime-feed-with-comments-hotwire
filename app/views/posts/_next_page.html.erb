@@ -1,0 +1,18 @@
+<% if @more_pages %> <!-- posts controller elegxei an yparxei epomenh selida -->
+  <!-- turbo frame gia na kanw load ti lista me ta epomena posts pou exoun id < cursor (anti gia epomenh selida) -->
+  <%= turbo_frame_tag(
+        "posts-page-#{@next_cursor}", # unique id me ton cursor pou deixnei sto id tou last.post tis listas 
+        #autoscroll: true,
+        loading: :lazy, # lazy loading wsta na emfanizontai ta epomena post mono otan to turbo frame einai orato stin othoni, kai an mhn fortwnontai oles oi selides an den ftasw sto telos kathe mias
+        src: posts_path(cursor: @next_cursor, query: params[:query], username: params[:username]), #vazw ton next cursor sto url, kathws kai ta params tis anazhthshs an kanw pagination ta search results
+        target: "_top"
+      ) do %>
+    <div class="d-flex justify-content-center mt-2">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  <% end %>
+<% else %>  <!-- alliws enhmerwnw oti eftasa sto telos twn posts -->
+  <p class=" mt-2 text-center fw-bold fst-italic">You've reached the end.</p>
+<% end %>

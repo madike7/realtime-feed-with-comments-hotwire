@@ -1,0 +1,18 @@
+<!-- idia logikh me to pagination gia ta posts -->
+<% if @more_pages %>
+  <%= turbo_frame_tag(
+        "comments-page-#{@next_cursor}",
+        #autoscroll: true,
+        loading: :lazy,
+        src: post_path(cursor: @next_cursor), # xrhsimopoiw to post_path afou eimai sto show tou posts controller
+        target: "_top"
+      ) do %>
+    <div class="d-flex justify-content-center mt-2">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p class=" mt-2 text-center fw-bold fst-italic">You've reached the end of comments.</p>
+<% end %>

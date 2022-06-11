@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "posts-page-#{@cursor}" do %>
+  <%= render @posts %> <!-- kanei render to current list of posts -->
+  <%= render partial: "next_page" %> <!-- pairnei to epomeno turbo frame tou next_page pou tha exei to epomeno swsto id gia thn epomenh lista (selida)-->
+<% end %>

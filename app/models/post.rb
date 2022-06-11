@@ -10,6 +10,20 @@ class Post < ApplicationRecord
   has_rich_text :body
   validates :body, presence: true #den prepei na einai keno
  
+  # SEARCH SCOPES
+
+  # search_text scopepou kanei join sto ActionText::RichText model, kanontas ena ILIKE keyword query
+  # To ILIKE den ypologizei gia HTML characters, px an psaksw gia mia ekfrash kai mia apo tis lekseis ths sto body tou post einai mesa se <strong>leksh</strong> 
+  # den tha kanei match me to content
+  # Gia to logo auto, prosthetw ena plain_text_body column sto action_text_rich_texts table, wste ta ActionText::RichText models na grafoun kai na kanoun search se auto.
+  # orizw ena callback before_save, opou se kathe create h update tou Post kalw tin to_plain_text, pou afairei kathe HTML syntax kai afhnei mono to text content tou body sto plain_text_body.
+  # Gia na mhn einai periorismeno mono sto Post model, kai na exw th dunatothta gia full text search se ola ta models me rich_rext_content kanw to ekshs:
+  # config/initializers/action_text_rich_text.rb
+  scope :search_text, ->(query) { joins(:rich_text_body).merge(ActionText::RichText.with_body_containing(query)) }
+  # search_username scope, psaxnw stous users gia matching username me to query gia na epistrepsw ola ta posts tou user pou psaxnw
+  scope :search_username, ->(username) { joins(:user).where('users.username LIKE ?', "%#{username}%") }
+
+
   #Broadcast
 
   # gia to broadcast xreiazomai sto index view:
@@ -26,7 +40,7 @@ class Post < ApplicationRecord
     broadcast_prepend_to :posts, target: "posts", partial: "posts/post_to_broadcast", locals: {  post: self } 
     update_post_counter
   end
-
+  
   # Gia na kanw broadcast to updated post se olous tous users pou einai subscribed sto stream.
   # O logos pou den to kanw einai giati den exw vrei tropo na elegxw an o kathe user exei kanei hdh like sto post,
   # logw tou oti den mporw na xrhsimopoihsw to current_user tou devise me to broadcast.

@@ -2,7 +2,12 @@
  Edw to @post einai neo record, ara eite "new_post" eite Post.new eite @post einai to idio -->
 <%= turbo_frame_tag @post do %>
   <div class="card post-new p-1 mt-2">
-    <h3>New Post</h3>
+    <div class="d-flex justify-content-between">
+      <h3 class="m-2">New Post</h3>
+      <%= link_to posts_path, class: "btn shadow-none" do %>  <!-- cancel button gia tin new post form -->
+        <i class="bi bi-x-circle fs-3"></i>
+      <% end %>
+    </div>
     <%= render 'form', post: @post %>
   </div>
 <% end %>

@@ -54,6 +54,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #gem "acts_as_votable", "~> 0.13.2"
 
-gem "pagy", "~> 5.10"
-
 gem "ruby-oembed", "~> 0.12.0", require: "oembed"

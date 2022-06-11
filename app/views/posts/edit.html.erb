@@ -1,7 +1,12 @@
 <!-- turbo frame me to idio id gia na kanw replace to frame tou post -->
 <%= turbo_frame_tag dom_id(@post) do %>
-  <div class="card post-edit mt-2 p-1 col-md-8 mx-auto">
-    <h3>Editing Post</h3>
+  <div class="card post-edit mt-2 p-1">
+    <div class="d-flex justify-content-between">
+      <h3 class="m-2">Editing Post <span class="text-muted">#<%= @post.id %></span></h3>
+      <%= link_to @post, class: "btn shadow-none" do %>  <!-- cancel button gia tin new post form -->
+        <i class="bi bi-x-circle fs-3"></i>
+      <% end %>
+    </div>
     <%= render 'form', post: @post %>
   </div>
 <% end %>

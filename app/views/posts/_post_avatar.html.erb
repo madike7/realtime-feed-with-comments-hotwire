@@ -17,11 +17,14 @@ to username kai tin hmeromhnia eggrafhs tou user -->
       <% end %>
     </div>
     <div class="card p-1 post-edit">
-      <div class="flex-row text-center">
-        <%= post.user.username %>  
+      <div class="border-bottom border-secondary text-center">
+        <%= post.user.username %>
       </div>
       <span class="text-center">
         Joined: <%= post.user.created_at.strftime("%B %Y") %>
+      </span>
+      <span class="text-center">
+        <%= pluralize(post.user.posts.count, "Post") %>
       </span>
     </div>
   </div>

@@ -1,25 +1,28 @@
 <div class="container mb-6">
-  <%= link_to :back, class: "btn btn-default btn-lg shadow-none" do %>
+  <%#= link_to :back, class: "btn btn-default btn-lg shadow-none" do %>
+  <%= link_to 'javascript:history.back()', class: "btn btn-default btn-lg shadow-none" do %>
     <i class="bi bi-arrow-left-circle"></i> Back
   <% end %>
 
-  <%#= turbo_frame_tag :posts  do %>
-
-    <%= turbo_stream_from :posts %> <!-- idio me to index -->
-    <%= turbo_stream_from [current_user, :posts] %> <!-- idio me to index -->
-    <div id="<%= dom_id(@post) %>">
-      <%= render @post %> <!-- kanw render to partial _post.html.erb gia ena post -->
-      <%#= render partial: 'posts/post', locals: { post: @post } %>
+  <%= turbo_stream_from :posts %> <!-- idio me to index -->
+  <%= turbo_stream_from [current_user, :posts] %> <!-- idio me to index -->
+  <div id="<%= dom_id(@post) %>">
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-8">
+        <%= render @post %> <!-- kanw render to partial _post.html.erb gia ena post -->
+        <%#= render partial: 'posts/post', locals: { post: @post } %>
+      </div>
     </div>
-  <%# end %>
+  </div>
+
   <div class="mt-4 mb-5">
       <div class="row height d-flex justify-content-center align-items-center">
         <div class="col-md-8">
           <div class="card">
             <div class="p-1">
-              <h4><span id='comments_counter'> <!-- target pou kanw broadcast to neo comment counter se kathe create h delete enos comment-->
-              <%= @post.comments_count %>
-            </span> Comments</h4>
+              <h4 class="m-0 ms-2"><span id='comments_counter'> <!-- target pou kanw broadcast to neo comment counter se kathe create h delete enos comment-->
+                <%= render partial: 'comments/count', locals: { count: @post.comments_count } %>
+            </span></h4>
             </div>
             <!-- kanw render to partial gia to comments form me to opoio dhmiourgw nea comments sto post -->
             <!-- vazw parent_id: nil giati to comment einai apanthsh sto post, kai den thelw na einai nested katw apo kapoio parent comment sto opoio apantaw-->
@@ -28,15 +31,16 @@
               <%= render partial: 'comments/form', locals: { comment: Comment.new, post: @post, parent: nil } %>
             </div>
           </div>
-
+          
+           
           <!-- stream pou akouei gia updates sto post, alla me target ta comments -->
-          <%= turbo_stream_from @post, :comments %> 
-
+          <%= turbo_stream_from @post, :comments %>
           <%= tag.div id: "#{dom_id(@post)}_comments" do %> <!-- perikleiw ola ta comments me ena target sto opoio kanw broadcast actions -->
             <!-- kanw fetch ta comments tou post, ta opoia den exoun parent, apo to neotero created sto palaiotero -->
-            <%= render partial: "comments/comment_with_replies", collection: @post.comments.where(parent_id: nil).includes(:user, :post, comments: :user).order(id: :desc), as: :comment %>
-            <!-- improve performance
-              icludes :user, kanw fetch olous tous users pou sysxetizontai me ta comments -->
+            <%= render partial: "comments/comment_with_replies", collection: @comments, as: :comment %> <!-- collection @comments, sto show tou posts controller -->
+          <% end %>
+          <% if @comments.any? %>
+            <%= render partial: "comments/next_comment_page" %> 
           <% end %>
         </div>
       </div>
