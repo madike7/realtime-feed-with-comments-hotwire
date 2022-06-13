@@ -1,6 +1,6 @@
 // xeirizetai ta embeds ston trix editor
 import Trix from "trix"
-import Rails from "@rails/ujs"
+//import Rails from "@rails/ujs"
 
 let lang = Trix.config.lang;
 Trix.config.toolbar = {

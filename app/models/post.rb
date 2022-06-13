@@ -50,9 +50,9 @@ class Post < ApplicationRecord
   # Stin update tou post controller, kanw replace to post mono gia ton user pou to kanei edit se real time, 
   # mesw tou turbo_stream.replace @post, kai etsi pairnw to swsto like icon tou current_user
 
-  #after_update_commit do 
-  #  broadcast_update_to :posts, partial: "posts/post_to_broadcast", locals: { post: self }
-  #end
+  after_update_commit do 
+    broadcast_update_to :posts, partial: "posts/post_to_broadcast", locals: { post: self }
+  end
 
   # destroy to post 
   after_destroy_commit do 

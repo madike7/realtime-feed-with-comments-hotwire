@@ -35,9 +35,10 @@ module Blog
     config.active_record.default_timezone = :local
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.to_prepare do
-      ActionText::ContentHelper.allowed_tags << "iframe"
-    end
+    #config.to_prepare do
+    #  ActionText::ContentHelper.allowed_tags << "iframe"
+    #end
+    Rails::Html::WhiteListSanitizer.allowed_tags << "iframe"
 
     # Don't generate system test files.
     config.generators.system_tests = nil

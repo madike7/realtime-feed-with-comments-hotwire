@@ -6,9 +6,9 @@
 
   <%= turbo_stream_from :posts %> <!-- idio me to index -->
   <%= turbo_stream_from [current_user, :posts] %> <!-- idio me to index -->
-  <div id="<%= dom_id(@post) %>">
-    <div class="d-flex justify-content-center row">
-      <div class="col-md-8">
+  <div class="d-flex justify-content-center row">
+    <div class="col-md-8">
+      <div id="<%= dom_id(@post) %>">
         <%= render @post %> <!-- kanw render to partial _post.html.erb gia ena post -->
         <%#= render partial: 'posts/post', locals: { post: @post } %>
       </div>
@@ -16,33 +16,32 @@
   </div>
 
   <div class="mt-4 mb-5">
-      <div class="row height d-flex justify-content-center align-items-center">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="p-1">
-              <h4 class="m-0 ms-2"><span id='comments_counter'> <!-- target pou kanw broadcast to neo comment counter se kathe create h delete enos comment-->
-                <%= render partial: 'comments/count', locals: { count: @post.comments_count } %>
+    <div class="row height d-flex justify-content-center align-items-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="p-1">
+            <h4 class="m-0 ms-2"><span id='comments_counter'> <!-- target pou kanw broadcast to neo comment counter se kathe create h delete enos comment-->
+              <%= render partial: 'comments/count', locals: { count: @post.comments_count } %>
             </span></h4>
-            </div>
-            <!-- kanw render to partial gia to comments form me to opoio dhmiourgw nea comments sto post -->
-            <!-- vazw parent_id: nil giati to comment einai apanthsh sto post, kai den thelw na einai nested katw apo kapoio parent comment sto opoio apantaw-->
-            <div class="p-2">
-              <!-- stelnw ena POST request sto route post_comments_path (px: posts/10/comments), comments_controller #create action -->
-              <%= render partial: 'comments/form', locals: { comment: Comment.new, post: @post, parent: nil } %>
-            </div>
           </div>
-          
-           
-          <!-- stream pou akouei gia updates sto post, alla me target ta comments -->
-          <%= turbo_stream_from @post, :comments %>
-          <%= tag.div id: "#{dom_id(@post)}_comments" do %> <!-- perikleiw ola ta comments me ena target sto opoio kanw broadcast actions -->
-            <!-- kanw fetch ta comments tou post, ta opoia den exoun parent, apo to neotero created sto palaiotero -->
-            <%= render partial: "comments/comment_with_replies", collection: @comments, as: :comment %> <!-- collection @comments, sto show tou posts controller -->
-          <% end %>
-          <% if @comments.any? %>
-            <%= render partial: "comments/next_comment_page" %> 
-          <% end %>
+          <!-- kanw render to partial gia to comments form me to opoio dhmiourgw nea comments sto post -->
+          <!-- vazw parent_id: nil giati to comment einai apanthsh sto post, kai den thelw na einai nested katw apo kapoio parent comment sto opoio apantaw-->
+          <div class="p-2">
+            <!-- stelnw ena POST request sto route post_comments_path (px: posts/10/comments), comments_controller #create action -->
+            <%= render partial: 'comments/form', locals: { comment: Comment.new, post: @post, parent: nil } %>
+          </div>
         </div>
+        
+          
+        <!-- stream pou akouei gia updates sto post, alla me target ta comments -->
+        <%= turbo_stream_from @post, :comments %>
+        <%= tag.div id: "#{dom_id(@post)}_comments" do %> <!-- perikleiw ola ta comments me ena target sto opoio kanw broadcast actions -->
+          <!-- kanw fetch ta comments tou post, ta opoia den exoun parent, apo to neotero created sto palaiotero -->
+          <%= render partial: "comments/comment_with_replies", collection: @comments, as: :comment %> <!-- collection @comments, sto show tou posts controller -->
+        <% end %>
+        <% if @comments.any? %>
+          <%= render partial: "comments/next_comment_page" %> 
+        <% end %>
       </div>
     </div>
   </div>

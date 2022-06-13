@@ -15,6 +15,11 @@
           </span>
         </div>
       </div>
+      <div class="d-flex ms-auto">  <!-- otan kanw broadcast create h update ena post pou periexei embed tweet, gia kapoio logo den metatrepetai to blockquote se iframe kai to tweet den emfanizetai swsta ektos an kanw full page refresh -->
+        <%= link_to post, class: 'btn shadow-none' do %> <!-- epeidh thelw ta post an emfanizontai se real time, gia na mhn anagkazw ton xrhsth na kanei full page refresh gia na dei to tweet -->
+          <i class="fa-solid fa-arrow-rotate-right reload-frame"></i> <!-- emfanizw ena reload icon wste enas user na mporei na kanei reload to frame pou periexei ena post -->
+        <% end %> <!-- otan o user kanei reload to frame, to tweet emfanizetai swsta -->
+      </div>
       <div class="d-flex d-none"
         data-controller='check-author'
         data-check-author-author-id-value='<%= post.user.id %>' >
