@@ -62,10 +62,10 @@
         <div data-read-more-target="content">
           <%= post.body %>
         </div>
-        <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="moreButton" data-action="read-more#showMore">
+        <button class="btn btn-link shadow-none hide p-0 more-btn" role="button" tabindex=0 data-read-more-target="moreButton" data-action="read-more#showMore">
           Show more
         </button>
-        <button class="btn btn-link shadow-none hide p-0" role="button" tabindex=0 data-read-more-target="lessButton" data-action="read-more#showLess">
+        <button class="btn btn-link shadow-none hide p-0 more-btn" role="button" tabindex=0 data-read-more-target="lessButton" data-action="read-more#showLess">
           Show less
         </button>
       </div>
@@ -78,10 +78,10 @@
       <!-- to link gia na dw ena post einai mesa se turbo frame,
       sto posts#show den yparxei turbo frame me to idio id
       vazw link na kanei target to "_top" frame wste na kanei replace olh th selida -->
-      <%= link_to post, target: "_top", class: "btn shadow-none" do %>
+      <%= link_to post, target: "_top", class: "btn shadow-none comments-btn" do %>
         <i class="bi bi-chat"></i>
         <!-- live update tou comment count -->
-        <span id='<%= dom_id(post)%>_comments_counter'> <!-- target pou kanw broadcast to comments_count gia kathe neo h deleted comment -->
+        <span id='<%= dom_id(post)%>_comments_counter' class="comment-count"> <!-- target pou kanw broadcast to comments_count gia kathe neo h deleted comment -->
           <%= post.comments_count %>
         </span>
       <% end %>

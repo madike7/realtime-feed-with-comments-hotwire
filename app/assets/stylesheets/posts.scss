@@ -9,26 +9,9 @@ body {
 .time {
   font-size: 9px !important
 }
-
+ 
 .socials i {
-  font-size: 17px;
-  color: #212529;
-  cursor: pointer
-}
-
-.feed-image img {
-  width: 100%;
-  height: auto
-}
-
-.box {
-display: -webkit-box;
--webkit-line-clamp: 5; // number of lines
--webkit-box-orient: vertical;  
-overflow: hidden;
-}
-.box-more {
--webkit-line-clamp: unset !important;
+  -webkit-text-stroke: 1px;
 }
 
 .post-edit {
@@ -187,4 +170,39 @@ html { line-height: 1.5 }
 .submit-post-form {
   background-color: #324352;
   color: #fff !important;;
+}
+
+.liked-btn {
+  color: #da0101;
+}
+
+.like-btn {
+  border-radius: 50rem;
+  color: rgb(83, 100, 113);
+}
+.like-btn:hover {
+  color: #da0101;
+  background: rgba(244, 33, 46, 0.1);
+}
+
+.like-count {
+  margin-left: 4px;
+  //color: rgb(83, 100, 113);
+}
+
+.comments-btn {
+  border-radius: 50rem;
+  color: rgb(83, 100, 113);
+}
+.comments-btn:hover {
+  color: rgb(0, 111, 214);
+  background: rgba(0, 111, 214, 0.1);
+}
+
+.comment-count {
+  margin-left: 4px;
+}
+
+.more-btn {
+  color: rgb(0, 111, 214);
 }

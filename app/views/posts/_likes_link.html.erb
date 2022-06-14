@@ -1,12 +1,12 @@
 <div data-controller='check-current-user' class='d-none'>
   <!-- like -->
   <!-- pernaw to post, to choice pou edw kanw mono upvotes, kai format turbo_stream -->
-  <%= link_to post_likes_path(post, choice: :upvote, format: :turbo_stream), class: "btn shadow-none" do %>
+  <%= link_to post_likes_path(post, choice: :upvote, format: :turbo_stream), class: "btn shadow-none like-btn" do %>
     <span id='<%= dom_id(post)%>_upvote_label'>  <!-- target pou kanw broadcast mono ston current user to swsto icon meta apo kathe tou like h undo like -->
       <!-- ApplicationHelper -->
       <%= like_label(post, static) %> <!-- emfanizw to katallhlo like icon -->
     </span>
-    <span id='<%= dom_id(post)%>_count'>  <!-- kanw broadcast to updated like_count gia kathe like h undo like-->
+    <span id='<%= dom_id(post)%>_count' class="like-count">  <!-- kanw broadcast to updated like_count gia kathe like h undo like-->
       <%= post.like_count %>  <!-- emfanizw ton arithmo twn likes mesw ths like_count tou post.rb -->
     </span>
   <% end %>
