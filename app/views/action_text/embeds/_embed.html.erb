@@ -1,10 +1,10 @@
 <!-- pws emfanizontai ta embeds sto post body -->
 <% if embed.video? %>
-  <div class="embed-container">
+  <div class="embed-container embed">
     <%= embed.html.html_safe %>
   </div>
 <% elsif embed.html || embed.rich? %>
-  <div class="d-flex justify-content-center">
+  <div class="embed">
     <%= embed.html.html_safe %>
   </div>
 <% elsif embed.photo? %>

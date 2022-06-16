@@ -120,6 +120,7 @@ class EmbedController {
     if (this.currentEmbed == null) { return }
 
     let attachment = new Trix.Attachment(this.currentEmbed)
+    //this.editor.insertLineBreak()
     this.editor.insertAttachment(attachment)
     this.element.focus()
   }

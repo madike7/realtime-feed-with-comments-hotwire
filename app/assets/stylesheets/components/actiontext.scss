@@ -4,10 +4,11 @@
 // inclusion directly in any other asset bundle and remove this file.
 //
 //= require trix/dist/trix
+/*
 iframe{
   width: 100vw;
   //height: calc(100vw/1.77);
-}
+}*/
 // We need to override trix.css’s image gallery styles to accommodate the
 // <action-text-attachment> element we wrap around attachments. Otherwise,
 // images in galleries will be squished by the max-width: 33%; rule.
@@ -20,8 +21,6 @@ iframe{
 .trix-content {
   img {
     display: inline-block;
-    max-width: 100%;
-    height: auto;
   }
 
   .attachment-gallery {
@@ -43,15 +42,13 @@ iframe{
   }
   
   .embed {
-    display: inline-block;
-    line-height: 1;
-    margin: 0.6em 0 !important;
-    padding: 0 !important;
-    width: 100%;
+    margin: 0.3em 0 !important;
+    //padding: 0 !important;
+    max-width: 100%;
+    text-align: -webkit-center;
   }
 
   .attachment {
-    display: inline-block;
     position: relative;
     margin: 0;
   }
@@ -62,11 +59,9 @@ iframe{
 }
 
 // Trix attachment formatting
-/*.attachment--preview {
+.attachment--preview {
   margin: 0.6em 0;
-  text-align: center;
-  width: 100%;
-}*/
+}
 
 // Tribute styles
 // gia ta mentions

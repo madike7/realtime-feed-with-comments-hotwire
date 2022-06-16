@@ -20,7 +20,7 @@
         		  <% else %>
         			  <%= image_tag current_user.gravatar_url, height: 40, width: 40, class: "rounded-circle"%>
         		  <% end %>
-    		      <%= current_user.username %>
+              <span class="username-color"><%= current_user.username %></span>
     		    </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="<%= edit_user_registration_path %>">Edit Account</a>
