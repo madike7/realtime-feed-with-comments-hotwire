@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     resources :comments
   end
   
+  resources :mentions, only: [:index]
+
   #resources :youtube, only: :show
 
   devise_for :users

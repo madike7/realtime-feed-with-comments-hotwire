@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  include ActionText::Attachable # sgid gia to action text
+                                  # thelw na afairesw to html otan kanw save to mention sto database
+                                  # otan kanw render to mention, to action text psaxnei gia to sgid pou afora ton user me to antistoixo id
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

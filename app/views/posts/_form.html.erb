@@ -3,8 +3,9 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
+  <!-- mentions stimulus controller me target mentions.field gia na exw access sto field -->
   <div class="form-inputs"> <!-- rich text field -->
-    <%= f.rich_text_area :body , placeholder: "What are you thinking?",  autofocus: true %>
+    <%= f.rich_text_area :body , placeholder: "What are you thinking?",  autofocus: true, data: { controller: "mentions", target: "mentions.field" } %>
   </div>
 
   <div class="form-actions mt-2 float-end">

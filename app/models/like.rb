@@ -13,7 +13,7 @@ class Like < ApplicationRecord
     # ? checks if choice is 
     case choice
     when 'upvote' # an o user kanei like xwris na exei ksanakanei, to enum choice ginetai 1, alliws 0.
-      upvote? ? cancel! : upvote! # an exei hdh kanei like, dhladh to choice einai 1, kai kanei upvote, to condition einai true, ara to enum choice ginetai 0 (cancel)
+      upvote? ? cancel! : upvote! # an exei hdh kanei like (upvote?), dhladh to choice einai 1, kai kanei upvote, to condition einai true, ara to enum choice ginetai 0 (cancel)
     when 'downvote'
       downvote? ? cancel! : downvote!
     end

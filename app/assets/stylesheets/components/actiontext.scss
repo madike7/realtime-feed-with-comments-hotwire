@@ -41,35 +41,35 @@ iframe{
       }
     }
   }
-  //pws fainontai mesa ston rich-text-editor
-  action-text-attachment, .attachment {
-    display: block;
+  
+  .embed {
+    display: inline-block;
     line-height: 1;
-    margin: 0.6vh 0 !important;
-    max-width: 100%;
+    margin: 0.6em 0 !important;
     padding: 0 !important;
-    text-align: center;
     width: 100%;
+  }
 
-    .embed {
-      display: inline-block;
-      width: 100%;
-    }
+  .attachment {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+  }
 
-    iframe, twitter-widget {
-      display: inline-block !important;
-    }
+  iframe, twitter-widget {
+    display: inline-block !important;
   }
 }
 
 // Trix attachment formatting
-.attachment--preview {
+/*.attachment--preview {
   margin: 0.6em 0;
   text-align: center;
   width: 100%;
-}
+}*/
 
 // Tribute styles
+// gia ta mentions
 .tribute-container {
   border-radius: 4px;
   border: 1px solid rgba(0,0,0,0.1);
@@ -89,7 +89,7 @@ iframe{
   }
 
   .highlight {
-    //@apply bg-primary-500;
+    background: #1b6ac9;
     color: #fff;
 
     span {
