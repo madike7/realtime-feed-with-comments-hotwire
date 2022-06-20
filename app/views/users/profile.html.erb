@@ -1,0 +1,74 @@
+<!-- to view gia to profile kathe xrhsth -->
+<!-- emfanizw ta stats gia ton xrhsth (posts, comments, profile views, likes) -->
+<!-- kathws kai ta posts pou anhkoun ston xrhsth me cursor pagination se order descending -->
+<div class="container mb-5">
+  <%= link_to 'javascript:history.back()', class: "btn btn-default btn-lg shadow-none" do %>
+    <i class="bi bi-arrow-left-circle"></i> Back
+  <% end %>
+  <div class="d-flex justify-content-center row">
+    <div class="col-lg-8">
+      <div class="card account border p-1">
+        <div class="card-body profile text-center">
+          <div class="profile-avatar">
+            <div class="d-inline-block">
+              <% if @user.avatar.attached? %>
+                <%= image_tag(@user.avatar, style:"width:150px; height: 150px; border-radius:100%") %>
+              <% else %>
+                <%= image_tag(@user.gravatar_url, style:"width:150px; height: 150px; border-radius:100%") %>
+              <% end %>
+            </div>
+          </div>
+          <h3 class="header username-color"><%= @user.username %></h3>
+          <div class="account-stats">
+            <div class="stat stats-posts">
+              <div class="human-readable-number">
+                <span title="<%= @user.posts.size %>"><%= number_to_human(@user.posts.size, :format => '%n%u', :units => { :thousand => 'K', :million => 'M', :billion => 'B' }) %></span>
+              </div>
+              <span class="stat-label">Posts</span>
+            </div>
+            <div class="stat stats-comments">
+              <div class="human-readable-number">
+                <span title="<%= @user.comments.size %>"><%= number_to_human(@user.comments.size, :format => '%n%u', :units => { :thousand => 'K', :million => 'M', :billion => 'B' }) %></span>
+              </div>
+              <span class="stat-label">Comments</span>
+            </div>
+            <div class="stat stats-profile-views">
+              <div class="human-readable-number">
+                <span title="<%= @user.views %>"><%= number_to_human(@user.views, :format => '%n%u', :units => { :thousand => 'K', :million => 'M', :billion => 'B' }) %></span>
+              </div>
+              <span class="stat-label">Profile Views</span>
+            </div>
+            <!--div class="stat stats-posts-views">
+              <div class="human-readable-number">
+                <span title="<%#= @total_post_views %>"><%= @total_post_views %></span>
+              </div>
+              <span class="stat-label">Total Post Views</span>
+            </div-->
+            <div class="stat stats-likes">
+              <div class="human-readable-number">
+                <span title="<%= @user.likes.sum(:choice) %>"><%= number_to_human(@user.likes.sum(:choice), :format => '%n%u', :units => { :thousand => 'K', :million => 'M', :billion => 'B' }) %></span>
+              </div>
+              <span class="stat-label">Likes</span>
+            </div>
+          </div>
+          <div class="text-center profile-meta mt-3">
+            <strong class="join-date">Joined <%= @user.created_at.strftime("%B %Y") %> </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <h3 class="text-center fw-bold profile-posts mt-3">Latest Posts</h3>
+  <!-- vazw kai edw ta duo streams, gia na ginontai se real time update ta edit, delete kai ta likes kathe post -->
+  <%= turbo_stream_from :posts %>
+  <%= turbo_stream_from [current_user, :posts] %>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <%= render partial: 'posts/post', locals: { post: post } %>
+      </div>  
+    <% end %>
+  </div>
+  <%= render partial: "users/profile_next_page" %>
+</div>

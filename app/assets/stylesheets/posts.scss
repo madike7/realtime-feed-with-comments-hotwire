@@ -3,7 +3,9 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 body {
-  background-color: #eee
+  background-color: #eee;
+  font-family: 'Proxima Nova Font';
+  color: rgb(68, 68, 68);
 }
 
 .time {
@@ -209,4 +211,14 @@ html { line-height: 1.5 }
 
 .mention {
   color: #0da9c8;
+  text-decoration: none;
+
+  &:hover {
+    color: #66afc4;
+  }
+}
+
+.header {
+  font-weight: bold;
+  letter-spacing: 1.5px;
 }

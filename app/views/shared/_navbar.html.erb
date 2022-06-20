@@ -1,5 +1,5 @@
 <!-- BOOTSTRAP NAVBAR OPTIONS -->
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top p-0">
   <div class="container-fluid">
     <a class="navbar-brand" href="<%= root_path %>">Fanapp</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,6 +11,7 @@
           <a class="nav-link active" aria-current="page" href="<%= root_path %>">Home</a>
         </li>
       </ul>
+      <span class="navbar-text ms-auto"><%= Time.zone.now %></span> <!-- metafora apo to application.html.erb sto navbar -->
       <ul class="nav navbar-nav ms-auto">
         <li class="nav-item dropdown">
           <% if current_user %>
@@ -23,9 +24,12 @@
               <span class="username-color"><%= current_user.username %></span>
     		    </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="<%= edit_user_registration_path %>">Edit Account</a>
+              <a class="dropdown-item bi bi-person-circle" href="<%= user_path(current_user.username) %>"> <span class="ms-2">My Profile</span></a>
+              <a class="dropdown-item bi bi-person-lines-fill" href="<%= edit_user_registration_path %>"> <span class="ms-2">Edit Account</span></a>
               <div class="dropdown-divider"></div>
-              <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'dropdown-item', "data-turbo": false %>
+              <%= button_to destroy_user_session_path, method: :delete, class: 'dropdown-item', "data-turbo": false do %>
+                <i class="bi bi-box-arrow-left"></i> <span class="ms-2">Logout</span>
+              <% end %>
             </div>
           <% end %>
         </li>

@@ -2,10 +2,12 @@
 An pame to pontiki panw sto avatar emfanizetai ena popup me to avatar megalytero,
 to username kai tin hmeromhnia eggrafhs tou user -->
 <span class="hoverWrapper">
-  <% if post.user.avatar.attached? %>
-    <%= image_tag post.user.avatar.variant(resize: "40x40!"), class: "rounded-circle"%>
-  <% else %>
-    <%= image_tag post.user.gravatar_url, width: 40, class: "rounded-circle"%>
+  <%= link_to user_path(post.user.username), target: "_top" do %> <!-- avatar san link gia to profil tou user -->
+    <% if post.user.avatar.attached? %>
+      <%= image_tag post.user.avatar.variant(resize: "40x40!"), class: "rounded-circle"%>
+    <% else %>
+      <%= image_tag post.user.gravatar_url, width: 40, class: "rounded-circle"%>
+    <% end %>
   <% end %>
 
   <div class="card p-1" id="hoverContent">

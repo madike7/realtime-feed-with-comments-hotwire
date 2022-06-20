@@ -20,6 +20,11 @@
   @import 'components/actiontext';
   @import 'components/iframe';
   @import 'components/direct_uploads';
+  
+  @font-face {
+    font-family: 'Proxima Nova Font';
+    src: url('Proxima Nova Font.otf');
+  }
 
   .hoverWrapper #hoverContent {
     display: none;
@@ -31,6 +36,7 @@
     //background: transparent;
     margin-left: -10em;
     margin-top: -6em;
+    box-shadow: none;
     //padding: 10px;
     //border-radius: 4px
   }
@@ -44,4 +50,57 @@
 
   .username-color {
     color: #1690b4;
+    text-decoration: none;
+  }
+  .username-color:hover {
+    color: #66afc4;
+  }
+
+  .card {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.10);
+  }
+
+  .account {
+
+    .profile {
+      margin-top: -25px;
+      padding-top: 0;
+      //z-index: 9999;
+
+      .account-stats {
+        text-align: center;
+        font-size: 35px;
+        line-height: 1;
+        margin-top: 25px;
+        margin-bottom: -20px;
+        font-weight: 900 !important;
+
+        .stat {
+          display: inline-block;
+          min-width: 100px;
+          margin-bottom: 20px;
+        }
+
+        .stat-label{
+          font-size: 12px;
+          text-transform: uppercase;
+          color: #6c757d;
+        }
+      }
+    }
+  }
+
+  .profile-avatar {
+    margin-bottom: 1.25rem;
+  }
+
+  .join-date {
+    color: #19a2a2;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .profile-posts {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
   }

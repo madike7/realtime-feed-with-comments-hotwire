@@ -1,5 +1,5 @@
-<div class="container mb-5">
-  <div class="text-center"><h1>Fan Wall</h1></div>
+<div class="container mt-2 mb-5">
+  <div class="text-center"><h1 class="header">Fan Wall</h1></div>
 
   <%= turbo_stream_from :posts %> <!-- akouei gia broadcasts, me target 'posts' -->
   <%= turbo_stream_from [current_user, :posts] %> <!-- gia na kanw broadcast ston user pou kanei ekeinh th stigmh like sto post, to neo icon -->
@@ -49,7 +49,7 @@
       <% if params[:query].present? || params[:username].present? %> <!-- Etsi elegxw an exei ginei kapoia forma submit -->
         <div class="d-flex justify-content-center">
           <h3 class="m-0"><span class="badge rounded-pill search-badge"> <!-- emfanizw posa search results epistrafhkan, se kathe periptwsh -->
-            Search Results - <%= Post.search_text(params[:query]).search_username(params[:username]).count if params[:username].present? && params[:query].present? %> <%= Post.search_text(params[:query]).count if !params[:username].present? && params[:query].present? %> <%= Post.search_username(params[:username]).count if params[:username].present? && !params[:query].present? %> Posts
+            Search Results - <%= pluralize(Post.search_text(params[:query]).search_username(params[:username]).count, "Post") if params[:username].present? && params[:query].present? %> <%= pluralize(Post.search_text(params[:query]).count, "Post") if !params[:username].present? && params[:query].present? %> <%= pluralize(Post.search_username(params[:username]).count, "Posts") if params[:username].present? && !params[:query].present? %>
           </span></h3>
         </div>
         <% if @posts.empty? %> <!-- an den yparxoun patching posts, emfanizw auto -->

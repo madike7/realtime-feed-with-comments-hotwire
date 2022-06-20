@@ -1,12 +1,12 @@
 <!-- to post partial pou ginetai broadcast otan se kathe create h update enos post-->
 <%= turbo_frame_tag dom_id(post) do %>
   <div class="card border p-1 mt-2">
-    <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+    <div class="d-flex flex-row justify-content-between align-items-center p-2">
       <div class="d-flex flex-row align-items-center feed-text">
         <%= render partial: 'posts/post_avatar', locals: { post: post } %>
         <div class="d-flex flex-column flex-wrap ms-2">
           <div class="d-flex align-items-center">
-            <span class="fw-bold username-color"><%= post.user.username %></span>
+            <span class="fw-bold"><%= link_to post.user.username, user_path(post.user.username), target: "_top", class: 'username-color' %></span>
             <span class="ms-2 dot"> </span>
             <span class="ms-2 text-muted">#<%= post.id %></span>
           </div>
@@ -29,13 +29,17 @@
           </button>
           <div class="dropdown-menu dropdown-menu-end">
             <!-- EDIT BUTTON -->
-            <%= link_to ' Edit Post', edit_post_path(post), class: 'dropdown-item btn shadow-none bi bi-pencil-fill', data: { turbo_frame: dom_id(post) } %>
+            <%= link_to edit_post_path(post), class: 'dropdown-item btn shadow-none bi bi-pencil-fill', data: { turbo_frame: dom_id(post) } do %>
+              <span class="ms-2">Edit Post</span>
+            <% end %>
             <!-- DELETE BUTTON-->
-            <% if action_name == 'show' && controller_name == 'posts' %>
-              <%= link_to ' Delete Post',  polymorphic_path(post, format: :html), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger bi bi-trash3-fill' %>
-            <% else %>
+            <% if action_name == 'show' && controller_name == 'posts' %> <!-- otan eimai sto show tou post, thelw otan diagrafetai to post na kanw redirect sto index me ola ta post, gi auto den thelw na kanw destroy as turbo_stream alla as HTML -->
+              <%= link_to polymorphic_path(post, format: :html), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger bi bi-trash3-fill' do %>
+                <span class="ms-2">Delete Post</span>
+              <% end %>
+            <% else %> <!-- se kathe allh periptwsh den thelw na kanw redirect ton user poy kanei delete  opote kanw destroy as turbo_stream -->
               <%= button_to  post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item btn btn-danger' do %>  
-                <i class="bi bi-trash3-fill"></i> Delete Post
+                <i class="bi bi-trash3-fill"></i> <span class="ms-2">Delete Post</span>
               <% end %>
             <% end %>
           </div>
@@ -43,7 +47,7 @@
       </div>
     </div>
     <!-- TRUNCATE POST BODY -->
-    <div class="p-1" data-controller="link-new-tab">
+    <div class="p-1 border-bottom" data-controller="link-new-tab">
       <div data-controller="read-more" data-read-more-lines-value="3"
           data-read-more-hide-class="hide"
           data-read-more-truncate-class="line-clamp"
@@ -59,7 +63,7 @@
         </button>
       </div>
     </div>
-    <div class="d-flex ms-auto">
+    <div class="d-flex mt-1 ms-auto">
       <!-- pernaw to static true wste h like_label na kanei broadcast to icon pou deixnei oti o user den exei kanei like sto post , otan kanw broadcast create ena neo post -->
       <!-- gia to broadcast update otan ginetai edit ena post, epeidh den mporw na xrhsimopoihsw to current_user se partial,
           tha emfanizei panta to like_icon( pou deixnei oti o user den exei kanei like), akoma kai stous users pou exoun kanei hdh like -->

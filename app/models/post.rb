@@ -21,7 +21,12 @@ class Post < ApplicationRecord
   # config/initializers/action_text_rich_text.rb
   scope :search_text, ->(query) { joins(:rich_text_body).merge(ActionText::RichText.with_body_containing(query)) }
   # search_username scope, psaxnw stous users gia matching username me to query gia na epistrepsw ola ta posts tou user pou psaxnw
-  scope :search_username, ->(username) { joins(:user).where('users.username LIKE ?', "%#{username}%") }
+  # "#{username}" prepei na grapsw akrivws to username
+  # px. an psaksw "mi" den tha vrei ton xrhsth "mixalhs"
+  # "%#{username}%" kanei match usernames pou periexoun ti frash h to xarakthra pou psaxnw. 
+  # px. an psaksw "mi" kai yparxoun xrhstew "mixalhs" kai "mixalhs125" tha kanei match kai ta dyo
+  # Xrhsimopoiw ILIKE pou einai case-insensitive, px. "MixALhs" tha vrei to username "mixalhs"
+  scope :search_username, ->(username) { joins(:user).where('users.username ILIKE ?', "#{username}") }
 
 
   #Broadcast

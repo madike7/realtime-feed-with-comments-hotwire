@@ -2,7 +2,7 @@
 <%= turbo_frame_tag @comment do %>
   <div class="comment-edit card p-1 mt-2">
     <div class="d-flex justify-content-between">
-      <h4 class="m-2">Editing Comment <span class="text-muted">#<%= @comment.id %></span></h4>
+      <h4 class="header m-2">Editing Comment <span class="text-muted">#<%= @comment.id %></span></h4>
       <%= link_to @comment, class: "btn shadow-none" do %>
         <i class="bi bi-x-circle fs-4"></i>
       <% end %>

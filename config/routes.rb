@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  #get 'users/profile'
+  devise_for :users
+  
   resources :posts do
     resources :comments
     #member do
@@ -7,21 +10,19 @@ Rails.application.routes.draw do
     resource :likes, only: :show
   end
 
+  resources :comments do
+    resources :comments
+  end
+
   resources :embeds, only: [:create], constraints: { id: /[^\/]+/ } do
     collection do
       get :patterns
     end
   end
   
-  resources :comments do
-    resources :comments
-  end
-  
   resources :mentions, only: [:index]
 
   #resources :youtube, only: :show
-
-  devise_for :users
-
+  get ':username', to: 'users#profile', as: 'user'  #user_path(user.username) gia na parw to profile enos user
   root 'posts#index'
 end

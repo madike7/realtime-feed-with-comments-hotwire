@@ -51,6 +51,13 @@ iframe{
   .attachment {
     position: relative;
     margin: 0;
+    a {
+      color: #0da9c8;
+      text-decoration: none;
+      &:hover {
+        color: #66afc4;
+      }
+    }
   }
 
   iframe, twitter-widget {

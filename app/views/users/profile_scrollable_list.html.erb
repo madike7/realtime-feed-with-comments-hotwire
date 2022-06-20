@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "user-page-#{@cursor}" do %>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <%= render partial: 'posts/post', locals: { post: post } %>
+      </div>  
+    <% end %>
+  </div>
+  <%= render partial: "users/profile_next_page" %> <!-- pairnei to epomeno turbo frame tou profile_next_page pou tha exei to epomeno swsto id gia thn epomenh lista (selida)-->
+<% end %>

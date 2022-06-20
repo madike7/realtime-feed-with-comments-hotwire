@@ -2,7 +2,7 @@
 <%= turbo_frame_tag dom_id(@post) do %>
   <div class="card post-edit mt-2 p-1">
     <div class="d-flex justify-content-between">
-      <h3 class="m-2">Editing Post <span class="text-muted">#<%= @post.id %></span></h3>
+      <h3 class="header m-2">Editing Post <span class="text-muted">#<%= @post.id %></span></h3>
       <%= link_to @post, class: "btn shadow-none" do %>  <!-- cancel button gia tin new post form -->
         <i class="bi bi-x-circle fs-3"></i>
       <% end %>
