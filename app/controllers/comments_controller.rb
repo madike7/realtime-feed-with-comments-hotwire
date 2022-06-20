@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   include ActionView::RecordIdentifier
-  before_action :is_author?, only: [:edit, :update, :destroy]
+  #before_action :is_author?, only: [:edit, :update]
   
   def create
     #create neo comment gia to post apo ton current_user
@@ -34,24 +34,25 @@ class CommentsController < ApplicationController
   end
 
   def show
-    #@comment = current_user.comments.find(params[:id])
+    #@comment = current_user.comments.find(params[:id]) # otan eixa to is_author?
     @comment = Comment.find(params[:id]) # oloi oi users mporoun na doun to show page enos comment
   end
 
   def edit
+    @comment = Comment.find(params[:id])
   end
   
   def update
     # update to comment tou post apo ton current_user
-    @comment = current_user.comments.find(params[:id]) #mono o comment owner mporei na kanei update ena comment
-
+    #@comment = current_user.comments.find(params[:id]) #mono o comment owner mporei na kanei update ena comment
+    @comment = Comment.find(params[:id])
     #to xrhsimopoiousa otan edeixna ta buttons [edit, delete] se olous tous users kai oxi mono ston owner
-    #if current_user != @comment.user
-    #  respond_to do |format|
-    #    format.turbo_stream { flash.now[:alert] = "You don't have the rights to edit this comment." }
-    #    format.html { redirect_to @comment, alert: "You don't have the rights to edit this comment." }
-    #  end
-    #else
+    if current_user != @comment.user
+      respond_to do |format|
+        format.turbo_stream { flash.now[:alert] = "You don't have the rights to edit this comment." }
+        format.html { redirect_to @comment, alert: "You don't have the rights to edit this comment." }
+      end
+    else
       if @comment.update(comment_params)
         respond_to do |format|
           # update.turbo_stream.erb
@@ -62,20 +63,21 @@ class CommentsController < ApplicationController
       else
         render :edit, status: :unprocessable_entity
       end
-    #end
+    end
   end
 
   def destroy
     # delete to comment tou post apo ton current_user
-    @comment = current_user.comments.find(params[:id])
+    #@comment = current_user.comments.find(params[:id]) otan eixa to is_author?
+    @comment = Comment.find(params[:id])
 
     #to xrhsimopoiousa otan edeixna ta buttons [edit, delete] se olous tous users kai oxi mono ston owner
-    #if current_user != @comment.user
-    #  respond_to do |format|
-    #    format.turbo_stream { flash.now[:alert] = "You don't have the rights to delete this comment." }
-    #    format.html { redirect_to @comment.post, alert: "You don't have the rights to delete this comment." }
-    #  end
-    #else
+    if current_user != @comment.user
+      respond_to do |format|
+        format.turbo_stream { flash.now[:alert] = "You don't have the rights to delete this comment." }
+        format.html { redirect_to @comment.post, alert: "You don't have the rights to delete this comment." }
+      end
+    else
       @comment.destroy
 
       respond_to do |format|
@@ -84,7 +86,7 @@ class CommentsController < ApplicationController
         format.turbo_stream { flash.now[:notice] = "Comment #{@comment.id} was successfully deleted." }
         format.html { redirect_to @comment.post }
       end
-    #end
+    end
   end
   
   private

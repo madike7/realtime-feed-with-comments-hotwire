@@ -88,8 +88,9 @@
               <%# end %>
             <!--/div-->
             <% end %>
-            
-            <%= render partial: "next_page" %>  <!-- render to partial pou perierxei to turbo_frame wste na emfanisw th lista me ta epomena posts -->
+            <% if @posts.any? %>
+              <%= render partial: "next_page" %>  <!-- render to partial pou perierxei to turbo_frame wste na emfanisw th lista me ta epomena posts -->
+            <% end %>
           </div>
         </div>
       <% end %>

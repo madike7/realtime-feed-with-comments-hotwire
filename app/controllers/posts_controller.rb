@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   include ActionView::RecordIdentifier
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[ edit update destroy ]
   before_action :is_author?, only: [:edit, :update, :destroy]
   POSTS_PER_PAGE = 5
   COMMENTS_PER_POST_PAGE = 5
@@ -75,6 +75,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
+    @post = Post.find_by(id: params[:id])
     #@post.update(views: @post.views + 1) # update post view count
     #an enas user thelei na dei ena post poy exei diagrafei, ton kanw redirect sto index
     #px an vlepei to post kai ekeinh th stigmh o owner to diagrapsei, an kanei refresh, tha metavei sto index
@@ -83,21 +84,22 @@ class PostsController < ApplicationController
       #flash.now[:alert] = "Post was not found"
       #render "index"
       redirect_to posts_path, alert: "Post was not found"
+    else
+      #GEARED PAGINATION 
+      #@comments = set_page_and_extract_portion_from @post.comments.where(parent_id: nil).includes(:user, :post, comments: :user).order(id: :desc), per_page: [5]
+      
+      #CURSOR-BASED PAGINATION COMMENTS
+      #idios tropos me ta post me ta antistoixa views
+      @cursor = params[:cursor]
+      @comments = @post.comments
+                                .where(parent_id: nil)  #kanw pagination mono sta top comments pou den exoun parent (Dhladh auta pou einai apanthsh se post kai oxi kapoio allo comment)
+                                .where(@cursor ? ["id < ?", @cursor] : nil)
+                                .includes(:user, :post, comments: :user) # improve performance, includes :user, kanw fetch olous tous users pou sysxetizontai me ta comments
+                                .order(id: :desc).take(COMMENTS_PER_POST_PAGE)
+      @next_cursor = @comments.last&.id
+      @more_pages = @next_cursor.present? && @comments.count == COMMENTS_PER_POST_PAGE
+      render "comments/scrollable_comment_list" if params[:cursor] 
     end
-    #GEARED PAGINATION 
-    #@comments = set_page_and_extract_portion_from @post.comments.where(parent_id: nil).includes(:user, :post, comments: :user).order(id: :desc), per_page: [5]
-    
-    #CURSOR-BASED PAGINATION COMMENTS
-    #idios tropos me ta post me ta antistoixa views
-    @cursor = params[:cursor]
-    @comments = @post.comments
-                              .where(parent_id: nil)  #kanw pagination mono sta top comments pou den exoun parent (Dhladh auta pou einai apanthsh se post kai oxi kapoio allo comment)
-                              .where(@cursor ? ["id < ?", @cursor] : nil)
-                              .includes(:user, :post, comments: :user) # improve performance, includes :user, kanw fetch olous tous users pou sysxetizontai me ta comments
-                              .order(id: :desc).take(COMMENTS_PER_POST_PAGE)
-    @next_cursor = @comments.last&.id
-    @more_pages = @next_cursor.present? && @comments.count == COMMENTS_PER_POST_PAGE
-    render "comments/scrollable_comment_list" if params[:cursor] 
   end
 
   # GET /posts/new
