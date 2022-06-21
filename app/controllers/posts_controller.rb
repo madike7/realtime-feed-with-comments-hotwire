@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   include ActionView::RecordIdentifier
   before_action :set_post, only: %i[ edit update destroy ]
-  before_action :is_author?, only: [:edit, :update, :destroy]
+  #before_action :is_author?, only: [:edit, :update, :destroy]
   POSTS_PER_PAGE = 5
   COMMENTS_PER_POST_PAGE = 5
   # GET /posts
@@ -140,12 +140,12 @@ class PostsController < ApplicationController
   def update
     #to xrhsimopoiousa otan edeixna ta buttons [edit, delete] se olous tous users kai oxi mono ston owner
 
-    #if current_user != @post.user
-    #  respond_to do |format|
-    #    format.turbo_stream { flash.now[:alert] = "You don't have the rights to edit this post." }
-    #    format.html { redirect_to @post, alert: "You don't have the rights to edit this post." }
-    #  end
-    #else
+    if current_user != @post.user
+      respond_to do |format|
+        format.turbo_stream { flash.now[:alert] = "You don't have the rights to edit this post." }
+        format.html { redirect_to @post, alert: "You don't have the rights to edit this post." }
+      end
+    else
       respond_to do |format|
         if @post.update(post_params)
           #update.turbo_stream.erb
@@ -156,24 +156,24 @@ class PostsController < ApplicationController
           format.html { render :edit, status: :unprocessable_entity }
         end
       end
-    #end
+    end
   end
 
   # DELETE /posts/1
   def destroy
     #to xrhsimopoiousa otan edeixna ta buttons [edit, delete] se olous tous users kai oxi mono ston owner
 
-    #if current_user != @post.user
-    #  respond_to do |format|
-    #    flash.now[:alert] = "You don't have the rights to delete this post."
-    #    format.turbo_stream do 
-    #      render turbo_stream: [
-    #        helpers.render_flash_messages
-    #      ]
-    #    end
-    #    format.html { redirect_to @post, alert: "You don't have the rights to delete this post." }
-    #  end
-    #else
+    if current_user != @post.user
+      respond_to do |format|
+        flash.now[:alert] = "You don't have the rights to delete this post."
+        format.turbo_stream do 
+          render turbo_stream: [
+            helpers.render_flash_messages
+          ]
+        end
+        format.html { redirect_to @post, alert: "You don't have the rights to delete this post." }
+      end
+    else
       @post.destroy
       
       respond_to do |format|
@@ -182,7 +182,7 @@ class PostsController < ApplicationController
         format.turbo_stream { flash.now[:notice] = "Post #{@post.id} was successfully destroyed." }
         format.html { redirect_to posts_path, notice: "Post was successfully destroyed." }
       end
-    #end
+    end
   end
 
   private
