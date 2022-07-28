@@ -7,8 +7,8 @@ export default class extends Controller {
   connect() { console.log("reset search controller connected") }
 
   clean() {
-    //console.log(this.clearmeTarget)
-    this.clearqueryTarget.value=''
+    // kanw clear kai ta duo targets
+    this.clearqueryTarget.value=''  
     this.clearusernameTarget.value=''
   }
 }

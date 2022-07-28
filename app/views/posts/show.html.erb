@@ -4,7 +4,6 @@
     <%= link_to 'javascript:history.back()', class: "btn btn-default btn-lg shadow-none" do %>
       <i class="bi bi-arrow-left-circle"></i> Back
     <% end %>
-    <!--p class="post_count mt-auto">Views: <%#= @post.views %></p-->
   </div>
 
   <%= turbo_stream_from :posts %> <!-- idio me to index -->

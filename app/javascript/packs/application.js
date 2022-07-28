@@ -8,7 +8,6 @@ import "@hotwired/turbo-rails"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "embed"
-//import "youtube"
 import "@fortawesome/fontawesome-free/js/all";
 //import "@fortawesome/fontawesome-free/css/all";
 

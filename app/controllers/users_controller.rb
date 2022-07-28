@@ -4,18 +4,13 @@ class UsersController < ApplicationController
   POSTS_PER_PAGE = 6  # 6 user posts se kathe selida
   def profile
     @user.update(views: @user.views + 1)  # kathe fora pou vlepei kapoios to profile tou xrhsth auksanw to view count
-    #cursor based ppagination gia ta posts tou user, opws ston posts controller
+    #cursor based pagination gia ta posts tou user, opws ston posts controller
     @cursor = params[:cursor]
     @posts = @user.posts
                   .where(@cursor ? ["id < ?", @cursor] : nil) # to epomeno post na exei mikrotero id apo to id tou cursor
                   .includes(:rich_text_body)
                   .order(id: :desc)                           # ola ta posts kata fthinousa seira
                   .take(POSTS_PER_PAGE)                       # kathe fora thelw na ginontai return POSTS_PER_PAGE (px. 5) posts
-                  
-    #@total_post_views = 0  # den to xreiazomai afou den ulopoiw telika ta post views gia kathe post
-    #@posts.each do |post|
-    #  @total_post_views += post.views
-    #end
     
     @next_cursor = @posts.last&.id  # thetw next_cursor to teletaio post tis listas
     @more_pages = @next_cursor.present? && @posts.count == POSTS_PER_PAGE

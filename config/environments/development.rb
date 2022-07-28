@@ -10,7 +10,9 @@ Rails.application.configure do
 
   #GIA NA GINONTAI SWSTA RENDER OI EIKONES
   config.action_controller.default_url_options = {host: "localhost", port: 3000} 
+  #config.action_controller.default_url_options = {host: "192.168.1.5", port: 3000}
 
+  config.web_console.permissions = '172.18.144.1' #gia na exw access apo alla devices
 
   # Do not eager load code on boot.
   config.eager_load = false

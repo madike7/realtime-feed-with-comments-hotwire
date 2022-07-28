@@ -4,15 +4,10 @@ Rails.application.routes.draw do
   
   resources :posts do
     resources :comments
-    #member do
-    #  patch :vote
-    #end
     resource :likes, only: :show
   end
 
-  resources :comments do
-    resources :comments
-  end
+  resources :comments
 
   resources :embeds, only: [:create], constraints: { id: /[^\/]+/ } do
     collection do
@@ -21,8 +16,7 @@ Rails.application.routes.draw do
   end
   
   resources :mentions, only: [:index]
-
-  #resources :youtube, only: :show
+  
   get ':username', to: 'users#profile', as: 'user'  #user_path(user.username) gia na parw to profile enos user
   root 'posts#index'
 end

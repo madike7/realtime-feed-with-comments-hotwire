@@ -38,12 +38,6 @@
               </div>
               <span class="stat-label">Profile Views</span>
             </div>
-            <!--div class="stat stats-posts-views">
-              <div class="human-readable-number">
-                <span title="<%#= @total_post_views %>"><%= @total_post_views %></span>
-              </div>
-              <span class="stat-label">Total Post Views</span>
-            </div-->
             <div class="stat stats-likes">
               <div class="human-readable-number">
                 <span title="<%= @user.likes.sum(:choice) %>"><%= number_to_human(@user.likes.sum(:choice), :format => '%n%u', :units => { :thousand => 'K', :million => 'M', :billion => 'B' }) %></span>

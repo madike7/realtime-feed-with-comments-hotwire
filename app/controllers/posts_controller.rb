@@ -76,7 +76,7 @@ class PostsController < ApplicationController
   # GET /posts/1
   def show
     @post = Post.find_by(id: params[:id])
-    #@post.update(views: @post.views + 1) # update post view count
+    
     #an enas user thelei na dei ena post poy exei diagrafei, ton kanw redirect sto index
     #px an vlepei to post kai ekeinh th stigmh o owner to diagrapsei, an kanei refresh, tha metavei sto index
     if @post.nil?
@@ -138,7 +138,6 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    #to xrhsimopoiousa otan edeixna ta buttons [edit, delete] se olous tous users kai oxi mono ston owner
 
     if current_user != @post.user
       respond_to do |format|

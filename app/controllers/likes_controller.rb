@@ -1,6 +1,6 @@
 class LikesController < ApplicationController
   include ActionView::RecordIdentifier
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   
   def show
     @post = Post.find(params[:post_id]) # get the post
