@@ -1,0 +1,9 @@
+<!-- partial pou kalw sto mesw tou user.json, kathorizei pws emfanizetai kathe mention enos user. -->
+<%= link_to user_profile_path(user.username), class: 'mention', target: "_top" do %>
+  <% if user.avatar.attached? %>
+    <%= image_tag user.avatar.variant(resize: "20x20!"), class: "rounded mb-1" %>
+  <% else %>
+    <%= image_tag user.gravatar_url, width: 20, class: "rounded mb-1" %>
+  <% end %>
+  <%= user.username %>
+<% end %>

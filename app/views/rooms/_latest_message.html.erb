@@ -1,0 +1,19 @@
+<!-- emfanizw poios xrhsths kai pote, esteile to teleutaio message, katw apo to room name stin  public room list tou side bar -->
+<!-- opws kai stous users (private rooms) -->
+<% unless last_message.nil? %>
+  <div class="d-flex align-items-center justify-content-between">
+    <% unless last_message.body.blank? %>
+      <div class="latest-msg fst-italic me-1">Last message by <%= link_to last_message.user.username, last_message.user, class: "text-decoration-none username-#{last_message.user.role}", data: {turbo: "false"} %></div>
+    <% else %>
+      <div class="latest-msg fst-italic me-1"><%= link_to last_message.user.username, last_message.user, class: "text-decoration-none username-#{last_message.user.role}", data: {turbo: "false"} %> sent a recording!</div>
+    <% end %>
+    <%= content_tag(:div, class: "latest-msg-time fst-italic ms-1", data: { time: last_message.created_at.to_i }) do %> <!-- thelw na kanw compare to created time tou last message apo kathe room, wste na kanw ta rooms sort me vash auto -->
+      <%= "#{time_ago_in_words(last_message.created_at)} ago" %>
+    <% end %>
+  </div>
+  <% unless last_message.body.blank? %>
+    <div class="d-flex align-items-center">
+      <span class="fw-bold latest-msg latest-msg-color">"<%= last_message.body.truncate(30) %>"</span>
+    </div>    
+  <% end %>
+<% end %>

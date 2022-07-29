@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "user_activity_status" %>
+<!-- mesw tis status_color allazw to icon tou status tou user -->
+<!-- kanw replace to css class kalwntas tin status_color pou exw orisei sto model User -->
+<div id="<%= dom_id(user) %>" class="status-icon <%= user.status_color %>"></div>

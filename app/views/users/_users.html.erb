@@ -1,0 +1,7 @@
+<% users.each do |user| %> <!-- gia kathe user pairnw to private room me ton current user kai to teleutaio mhnyma ths synomilias kai ta emfanizw san items tis listas twn users sto side bar -->
+  <% private_room_name = get_private_name(user, current_user) %>  <!-- pairnw to onoma tou private room -->
+  <!-- den exw access sto @chat_room mesa sto partial, alla mono sto index page, opote to orizw ksana edw -->
+  <% chat_room = Room.where(name: private_room_name).first || Room.create_private_conversation([user, current_user], private_room_name) %>
+  <!-- kanw render to partial gia item tis listas twn users -->
+  <%= render 'users/user', user: user, last_message: chat_room&.room_latest_message, room: chat_room %>
+<% end %>

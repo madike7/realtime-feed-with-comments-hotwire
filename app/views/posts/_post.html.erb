@@ -11,7 +11,7 @@
         <%= render partial: 'posts/post_avatar', locals: { post: post } %>
         <div class="d-flex flex-column flex-wrap ms-2">
           <div class="d-flex align-items-center">
-            <span class="fw-bold"><%= link_to post.user.username, user_path(post.user.username), target: "_top", class: 'username-color' %></span> <!-- emfanizw to username san link gia to profil tou user -->
+            <span class="fw-bold"><%= link_to post.user.username, user_profile_path(post.user.username), target: "_top", class: 'username-color' %></span> <!-- emfanizw to username san link gia to profil tou user -->
             <span class="ms-2 dot"> </span>
             <span class="ms-2 text-muted">#<%= post.id %></span>
           </div>

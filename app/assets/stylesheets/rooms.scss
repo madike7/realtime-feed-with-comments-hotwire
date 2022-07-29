@@ -1,0 +1,275 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ body {
+  overflow-x: hidden;
+  height: calc(100vh - 56px);
+}
+.card {
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.10);
+}
+
+.message-form {
+  width: 100%;
+  height: 56px;
+  padding: 10px;
+}
+/*
+#chat_room {
+  height: calc(100vh - 150px);
+}
+*/
+#messages {
+  height: calc(100vh - 150px);
+  overflow-x: hidden;
+  /*overflow-y: scroll;*/
+}
+.loading {
+  padding: 40vh;
+}
+
+#chatroom_height {
+  /*height: calc(100vh - 56px);*/
+  overflow: hidden;
+}
+
+#active_room_style {
+  /*margin-right: 0px !important;
+  background-color: #303a44;*/
+  background-color: #192128;
+  border-left: 1px solid rgb(108, 135, 175);
+  height: calc(100vh - 56px);
+}
+
+.active-room-color {
+  background: #1f2a38 !important;
+}
+
+#side_bar {
+  background-color: #192128;
+  padding: 5px;
+  overflow-x: auto;
+  height: calc(100vh - 56px);
+}
+#users {
+  max-height: calc(46vh - 150px) !important;
+  overflow-x: hidden;
+}
+#rooms {
+  max-height: calc(46vh - 150px) !important;
+  overflow-x: hidden;
+}
+
+.rooms-container, .user-rooms-container {
+  background-color: #343b48 !important;
+}
+
+.room-name {
+  color: #5faaef;
+  border-bottom: 1px solid #6c87af;
+  /*margin-bottom: 0;*/
+}
+
+.list-room-name {
+  color: #11d8de;
+}
+
+.remove-room-btn {
+  color: red !important;
+  opacity: 0.75;
+}
+
+.dropdown-color {
+  background:#2c4559 !important;
+}
+.dropdown-username-user {
+  color: #11d8de;
+}
+
+.dropdown-username-admin {
+  color: #b78f37;
+}
+.dropdown-item {
+  color: #abccdb !important;
+}
+
+.dropdown-item:hover {
+  background: #4e89a2 !important;
+  color: white !important;
+}
+
+.message-body {
+  width: 80%;
+  margin-right: 5px;
+}
+
+.chat-message-container {
+  word-wrap: break-word;
+  width: fit-content;
+  /*max-width: 40%;
+  padding: 5px;*/
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: #555555;
+  margin-left: 0.5rem!important;
+}
+
+.user-role-admin {
+  /*background-color: rgb(26 66 74) !important;*/
+  background-color: rgba(44,102,114,1) !important;
+}
+
+.username-admin {
+  overflow: hidden;
+  color: #b78f37 !important;
+}
+
+.online-users {
+  color:#698abb;
+}
+
+.username {
+  overflow: hidden;
+  color: #5faaef;
+}
+
+.chat_user_icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: .5rem!important;
+}
+
+.users_list {
+  /*height: 55px;*/
+  color: #ffffff !important;
+  background-color: inherit !important;
+  background: radial-gradient(#505358, transparent);
+}
+
+.user-notification {
+  background-color: #3a9caf !important; 
+}
+.user-notification-count {
+  font-size: initial;
+  font-weight: normal;
+}
+
+.username-search {
+  border-radius: 25px !important;
+}
+
+.user-search-container {
+  background-color: #1d232e !important
+}
+
+#search_results {
+  max-height: calc(46vh - 150px) !important;
+  overflow-x: hidden;
+}
+
+.find-user {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.mark, mark {
+  padding: 0 !important;
+  background-color: #789ec5 !important;
+}
+
+.rooms_list {
+  /*height: 55px;*/
+  background-color: inherit !important;
+  color: #fff !important;
+}
+
+.dot {
+  height: 7px;
+  width: 7px;
+  margin-top: 3px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block
+}
+
+.user-sidebar-icon {
+  position: relative;
+}
+
+.status-icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: grey;
+  border: 2px solid white;
+  bottom: 2px;
+  right: 10px;
+  position: absolute;
+}
+
+.crnt-user {
+  height: 55px;
+  color: #ffffff !important;
+  background-color: inherit !important;
+  background: radial-gradient(#58739b, transparent);
+}
+
+.msg-time {
+  color: #adb3b8;
+}
+
+.msg-destroy {
+  color: #26bf86;
+}
+
+.latest-msg {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.latest-msg-time {
+  font-size: 12px;
+  color: #6a9191;
+}
+
+.latest-msg-color {
+  color: #5a98bf;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

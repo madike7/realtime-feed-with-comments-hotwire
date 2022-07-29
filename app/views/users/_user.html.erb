@@ -1,9 +1,44 @@
-<!-- partial pou kalw sto mesw tou user.json, kathorizei pws emfanizetai kathe mention enos user. -->
-<%= link_to user_path(user.username), class: 'mention', target: "_top" do %>
-  <% if user.avatar.attached? %>
-    <%= image_tag user.avatar.variant(resize: "20x20!"), class: "rounded mb-1" %>
-  <% else %>
-    <%= image_tag user.gravatar_url, width: 20, class: "rounded mb-1" %>
-  <% end %>
-  <%= user.username %>
+<% if @chat_room&.roommate?(@chat_room, user) %> <!-- elegxos an exw epileksei to private chat room kai an o user einai roommate tou private conversation -->
+  <% check_if_active = 'active-room-color active' %> <!-- bootstrap class gia na kanw active (blue border) ton user stin lista me tous users, an exw epileksei to chat mazi tou -->
+<% else %>
+  <% check_if_active = 'users_list' %>
 <% end %>
+
+<!-- emfanizw tous users san list items, to side bar twn users, kai kanw active opoion exw epilegmeno chat mazi tou -->
+<div class="private-room">
+  <li class="list-group-item text-white rounded m-1 <%= check_if_active %>">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+      <%= link_to user, class: 'text-decoration-none', data: {turbo: "false"} do %> <!-- link gia na epilegei to private chat me ton xrhsth -->
+        <div class="d-flex flex-wrap align-items-center">  <!-- emfanizw to avatar kai to username -->
+          <div class="user-sidebar-icon">
+            <% if user.avatar.attached? %>
+              <%= image_tag(user.avatar.variant(resize_to_limit: [50, 50]).processed, class: "chat_user_icon") %>
+            <% else %>
+              <%= image_tag(user.gravatar_url, width: 50, class: "chat_user_icon") %>
+            <% end %>
+            <%= turbo_stream_from "user_activity_status" %> <!-- akouei gia broadcasts me target "user_activity_status" -->
+            <!-- kanw replace to partial activity_status otan ginetai update to status tou user -->
+            <!-- gia na kanw replace to content tou partial activity_status prepei na orisw mesa se auto ena turbo_frame_tag me target user_activity_status -->
+            <div>
+              <%= render "users/activity_status", user: user %> <!-- emfanizw to icon pou deixnei to status tou user gia tous users tis listas tou sidebar -->
+            </div>
+          </div>
+          <div class="m-1 username username-<%= user.role%>">
+            <%= user.username %>
+          </div>
+          <% if user.admin? %>
+            <small class="m-1 badge rounded-pill bg-success me-1">ADMIN</small>
+          <% end %>
+        </div>
+      <% end %>
+      <% if !room.nil? %> <!-- render to partial pou emfanizei to notification counter tou user gia ena private room -->
+        <%= render 'users/user_notifications', user: user, room: room %>
+      <% end %>
+    </div>
+    <% if !room.nil? %> <!-- turbo frame opou kanw broadcast update kathe fora pou allazei to last message (dhladh kathe fora pou kapoios stelnei h diagrafei ena mhnyma apo to room) -->
+      <%= turbo_frame_tag [dom_id(room), "last_private_message"] do %> <!-- target: "room_{id} last_private_message" -->
+        <%= render "users/latest_message", user: user, last_message: last_message %>  <!-- to partial opou emfanizw to teleutaio mhnyma kai me vash to opoio kanw sort ta rooms -->
+      <% end %>
+    <% end %>
+  </li>
+</div>

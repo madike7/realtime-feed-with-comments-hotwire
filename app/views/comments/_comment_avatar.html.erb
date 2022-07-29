@@ -2,7 +2,7 @@
 An pame to pontiki panw sto avatar emfanizetai ena popup me to avatar megalytero,
 to username kai tin hmeromhnia eggrafhs tou user -->
 <span class="hoverWrapper">
-  <%= link_to user_path(comment.user.username), target: "_top" do %>  <!-- avatar san link gia to profil tou user -->
+  <%= link_to user_profile_path(comment.user.username), target: "_top" do %>  <!-- avatar san link gia to profil tou user -->
     <% if comment.user.avatar.attached? %>
       <%= image_tag comment.user.avatar.variant(resize: "40x40!"), class: "rounded-circle"%>
     <% else %>

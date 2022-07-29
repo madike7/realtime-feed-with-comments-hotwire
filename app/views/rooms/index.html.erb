@@ -1,0 +1,76 @@
+<!-- auta ta 2 kata kapoio tropo kanoun check se poio page vriskomai -->
+<%= turbo_frame_tag "activity_channel" %> <!-- turbo frame pou akouei gia turbo:load events -->
+<div id="activity_channel"></div> <!-- checkarei an kanw uninstall tous event listeners sto activity_channel.js -->
+<!---->
+
+<div id="chatroom_height" class="d-flex row bg-dark text-light m-0">
+  <div id="side_bar" class="card col-md-4 col-sm-4">
+    <!-- Emfanizw ton current user me to avatar kai to status tou-->
+    <li class="d-flex align-items-center justify-content-between list-group-item crnt-user rounded m-1">
+      <%= link_to current_user, class: 'd-flex align-items-center text-decoration-none text-white', data: {turbo: "false"} do %>
+        <div class="user-sidebar-icon">
+          <% if current_user.avatar.attached? %>  <!-- emfanizw to avatar tou current user -->
+            <%= image_tag(current_user.avatar.variant(resize_to_limit: [50, 50]).processed, class: "chat_user_icon")%>
+          <% else %>
+            <%= image_tag(current_user.gravatar_url, width: 50, class: "chat_user_icon")%>
+          <% end %>
+          <%= turbo_stream_from "user_activity_status" %> <!-- akouei gia broadcasts me target "user_activity_status" -->
+          <div>
+            <%= render "users/activity_status", user: current_user %> <!-- emfanizw to icon pou deixnei to status tou current_user -->
+          </div>
+        </div>
+        <span class="ms-1 username username-<%= current_user.role%>"><%= current_user.username %></span>
+      <% end %>
+      <% if current_user.admin? %>
+        <span class="badge rounded-pill bg-success">ADMIN</span>
+      <% end %>
+    </li>
+    <!-- Lista me olous tous users-->
+    <div class="card p-2 mt-2 user-rooms-container">
+      <div class="d-flex justify-content-between align-items-center"><h4> Users </h4> <strong class="online-users"><%= @online_users %> Online</strong></div>
+      <%= turbo_stream_from "users" %>  <!-- akouei gia broadcasts me target "users" -->
+      <%= turbo_stream_from current_user, :notifications %> <!-- prin ena broadcast ginei orato sto front end, prepei na kanw subscribe ton user sto Turbo Stream channel pou kanei match me to antistoixo sto model Message pou kanw broadcast -->
+      <div class="card p-2 mb-1 user-search-container">
+        <%= render 'users/user_search_form', users: @users %>
+      </div>
+      <div id="users" data-controller="sort-users">  <!-- target gia na kanw broadcast append tous neous users sti lista me tous users -->
+        <!-- kanw sort tous users mesw tou stimulus controller sort_users -->
+        <!-- kanw render ti lista me tous users (private rooms) -->
+        <%= render 'users/users', users: @all_users %> <!-- render to partial _users, me users olous ektos apo ton current_user -->
+      </div>
+    </div>
+    <!-- lista me ola ta chatrooms -->
+    <div class="card p-2 mt-2 rooms-container">
+      <h4> Public Rooms </h4>
+      <%= render 'rooms/form' %> <!-- render tin forma dhmiourgias rooms -->
+      <%= turbo_stream_from "rooms" %>  <!-- akouei gia broadcasts me target "rooms" -->
+      <div id="rooms" data-controller="sort-rooms"> <!-- target gia na kanw broadcast append ta nea rooms sti lista me ta public rooms -->
+        <!-- kanw sort ta rooms mesw tou stimulus controller sort_rooms -->
+        <!-- gia kathe room sti lista me ta public rooms, kanw render to partial _room -->
+        <% @rooms.each do |room| %> 
+          <!-- pernaw sto last_message to teleutaio mhnyma tou room kai san user ton current_user -->
+          <%= render 'rooms/room', room: room, last_message: room.room_latest_message, user: current_user %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- Edw emfanizw to chatroom pou exw epileksei na kanw chat -->
+  <div id="active_room_style" class="card p-0 col-md-8 col-sm-8 text-light">
+    <% if @chat_room %> <!-- elegxos an exw epileksei ena chatroom -->
+      <div id="chat_room">
+        <!-- An einai public room emfanizw to onoma tou room, an einai private conversation emfanizw to onoma tou allou user) -->
+        <h4 class="text-center room-name"> <%= @user&.username || @chat_room.name %> </h4>
+        <!-- vazw turbo stream pou dexetai to broadcasted message -->
+        <%= turbo_stream_from @chat_room %> <!-- akouei gia broadcasts sto @chat_room -->
+        <!-- target messages opou kanw broadcast append ta new messages mesa sto chat room -->
+        <div id="messages" data-controller="scroll-chat"> <!-- stimulus controller scroll_chat, target "messages" gia na parw to element, diathrei to scroll position h kanei scroll sto bottom analogws -->
+          <% if @messages.any? %>
+            <%= render partial: "messages/next_message_page" %> 
+          <% end %>
+          <%= render @messages %> <!-- render to partial _message gia kathe message tou chat room -->
+        </div>
+        <%= render 'messages/form' %> <!-- render ti forma gia to new message -->
+      </div>
+    <% end %>
+  </div>
+</div>

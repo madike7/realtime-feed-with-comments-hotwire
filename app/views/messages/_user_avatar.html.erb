@@ -1,0 +1,45 @@
+<div class="dropdown">
+  <div class="d-flex align-items-center">
+    <a href="#" class="text-decoration-none" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown">
+      <div class="d-flex align-items-center">
+        <% if user.avatar.attached? %>
+          <%= image_tag(user.avatar.variant(resize_to_limit: [50, 50]).processed, class: "chat_user_icon") %>
+        <% else %>
+          <%= image_tag user.gravatar_url, width: 50, class: "chat_user_icon" %>
+        <% end %>
+        <div class="d-flex justify-content-between align-items-center text-white">
+          <strong class="me-2 username-<%= user.role%>"> <%= user.username %> </strong>
+        </div>
+      </div>
+    </a>
+    <span class="dot"> </span> <small class="ms-2 msg-time"> <%= time_ago_in_words(message.created_at) %> ago </small>
+    <ul class="dropdown-menu dropdown-color" aria-labelledby="dropdownMenuLink">
+      <div class="d-flex justify-content-center p-2">
+        <div class="p-2">
+          <% if user.avatar.attached? %>
+            <%= image_tag user.avatar.variant(resize: "100x100!"), class: "rounded-circle" %>
+          <% else %>
+            <%= image_tag user.gravatar_url, width: 100, class: "rounded-circle" %>
+          <% end %>
+        </div>
+      
+        <div class="card bg-dark p-1 m-1 text-white">
+          <strong class="dropdown-username-<%= user.role %> border-bottom border-secondary text-center">
+            <%= user.username %>
+          </strong>
+          <span class="text-center fst-italic">
+            Joined: <%= user.created_at.strftime("%B %Y") %>
+          </span>
+          <% if user.admin? %>
+            <span class="mt-1 m-auto badge rounded-pill bg-success">ADMIN</span>
+          <% end %>
+        </div>
+      </div>
+      <li><%= link_to user, class:'dropdown-item rounded me-1 d-flex justify-content-between', data: {turbo: "false"} do %>
+            Direct Message <i class="bi bi-envelope-fill"></i>
+      <% end %></li>
+      <li><a class="dropdown-item rounded me-1 d-flex justify-content-between" href="#">View Profile <i class="bi bi-person-circle"></i></a></li>
+
+    </ul>
+  </div>
+</div>

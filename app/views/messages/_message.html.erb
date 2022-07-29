@@ -1,0 +1,30 @@
+<!-- pws emfanizw to message sto chat -->
+<%= turbo_frame_tag message do %>
+  <div class="message-container-user-<%= message.user.id %>"> <!-- orizw ena class gia na prosthesw styling ston container tou message, me vash to id tou user pou to dhmiourgei -->
+  <!-- gia na exoun ta messages tou current_user allo styling (na einai deksia me allo xrwma), mporw na tropopoihsw to class sto application.html.erb mesw tou helper current_user -->
+    <div class="chat-message-container message-user-<%= message.user.id %> user-role-<%= message.user.role%>">
+      <div class="d-flex align-items-center justify-content-between">
+        <%= render 'messages/user_avatar', user: message.user, message: message %> <!-- partial pou emfanizei to avatar kai to username tou user pou esteile to mhnyma -->
+        <div class="d-none" 
+             data-controller='check-author'
+             data-check-author-author-id-value='<%= message.user.id %>'>  <!-- controller pou elegxei an o current user einai o message owner wste na emfanizw button gia na to kanei delete -->
+          <%= button_to message_path(message), class: "btn btn-sm shadow-none", method: :delete, data: { confirm: "Are you sure?" } do %> <!-- destroy message -->
+            <i class="bi bi-trash-fill msg-destroy"></i>
+          <% end %>
+        </div>
+      </div>
+      <div class="mt-1 ms-1 mb-0"><%= message.body %></div>
+      <% if message.recordings.attached? %> <!-- pws emfanizw ta recordings pou exw kanei attach sto message form -->
+      <div class="">
+        <% message.recordings.each do |recording| %>
+          <% if recording.video? %>
+            <%= video_tag(url_for(recording), class: 'w-100 video-file', controls: '') %> <!-- sto video-file css class pernaw to height tou video wste otan ena mhnyma exei video recording, na mhn ephreazetai to height tou message otan kanw scroll sto bottom tou chat mesw tou controller -->
+          <% elsif recording.audio?%>
+            <%= audio_tag(url_for(recording), class: 'w-100', controls: '') %>
+          <% end %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

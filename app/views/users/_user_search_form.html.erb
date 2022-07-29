@@ -1,0 +1,20 @@
+<!-- forma anazhthshs users (private rooms) -->
+<div class="d-flex justify-content-between align-items-center m-1">
+  <div class="find-user">Find user </div>
+  <div class="ms-auto">
+    <%= form_with url: search_rooms_path, # routes.rb, collection do post :search
+                  method: :post, 
+                  data: { controller: 'search', search_target: 'form' } do |form| %>
+                  <!-- debounce controller -->
+      <%= form.search_field :username_search, # to pedio opou kanw search
+                            class:'form-control username-search', 
+                            placeholder: 'Search Users',
+                            autocomplete: 'off',
+                            value: params[:username_search],
+                            data: { action: "input->search#search" } %> <!-- otan pairnei input, kalw tin search tou stimulus controller search, wste na ginetai automato submit meta apo kapoia ms -->
+    <% end %>
+  </div>
+</div>
+<div id="search_results" data-controller="sort-search"> <!-- kanw sort ta search results me vash to neotero mhnyma twn private rooms -->
+  <%= render 'users/search_results', users: users %>  <!-- emfanizw to partial me ta search results -->
+</div>

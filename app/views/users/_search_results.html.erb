@@ -1,0 +1,45 @@
+<% users.each do |user| %>
+  <!-- orizw to chat_room gia na ananewnw to latest message tou private room -->
+  <% private_room_name = get_private_name(user, current_user) %> <!-- pairnw to onoma tou private room -->
+  <% chat_room = Room.where(name: private_room_name).first || Room.create_private_conversation([user, current_user], private_room_name) %> <!-- vriskw to room pou antistoixei sto onoma -->
+  <!-- -->
+
+  <% if @chat_room&.roommate?(@chat_room, user) %> <!-- elegxos an exw epileksei to private chat room kai an o user einai roommate tou private conversation -->
+    <% check_if_active = 'active-room-color active' %> <!-- bootstrap class gia na kanw active (blue border) ton user stin lista me tous users, an exw epileksei to chat mazi tou -->
+  <% else %>
+    <% check_if_active = 'users_list' %>
+  <% end %>
+  <!-- pws emfanizw ta search results gia kathe private room -->
+  <div class="private-room">
+    <li class="list-group-item text-white rounded m-1 <%= check_if_active %>">
+      <div class="d-flex align-items-center">
+        <%= link_to user_path(id: user.id, username_search: params[:username_search]), class: 'text-decoration-none', data: {turbo: "false"} do %> <!-- link gia na epilegei to private chat me ton xrhsth -->
+          <div class="d-flex align-items-center">  <!-- emfanizw to avatar kai to username -->
+            <div class="user-sidebar-icon">
+              <% if user.avatar.attached? %>
+                <%= image_tag(user.avatar.variant(resize_to_limit: [50, 50]).processed, class: "chat_user_icon") %>
+              <% else %>
+                <%= image_tag(user.gravatar_url, width: 50, class: "chat_user_icon") %>
+              <% end %>
+              <%= turbo_stream_from "user_activity_status" %> <!-- akouei gia broadcasts me target "user_activity_status" -->
+              <!-- kanw replace to partial activity_status otan ginetai update to status tou user -->
+              <!-- gia na kanw replace to content tou partial activity_status prepei na orisw mesa se auto ena turbo_frame_tag me target user_activity_status -->
+              <div>
+                <%= render "users/activity_status", user: user %> <!-- emfanizw to icon pou deixnei to status tou user gia tous users tis listas tou sidebar -->
+              </div>
+            </div>
+            <div class="ms-1 username search-highlight username-<%= user.role%>">
+              <%= highlight(user.username, params.dig(:username_search)) %> <!-- kanw highlight ta matching usernames symfwna me to query -->
+            </div>
+          </div>
+        <% end %>
+        <% if user.admin? %>
+          <small class="ms-1 badge rounded-pill bg-success me-1">ADMIN</small>
+        <% end %>
+      </div>
+      <%= turbo_frame_tag [dom_id(chat_room), "search_last_private_message"] do %> <!-- turbo_frame sto opoio kanw update to last message tou private room, otan ginetai created h removed ena message tou room -->
+        <%= render "users/latest_message", user: user, last_message: chat_room&.room_latest_message %>  <!-- kanw render to partial pou emfanizei to last message -->
+      <% end %>
+    </li>
+  </div>
+<% end %>

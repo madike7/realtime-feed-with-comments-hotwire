@@ -1,0 +1,23 @@
+<% if @chat_room && @chat_room.name == room.name %> <!-- css styling gia to active room -->
+  <% check_if_active = 'active-room-color active' %>
+<% else %>
+  <% check_if_active = 'rooms_list' %>
+<% end %>
+<div class="public-room"> <!-- class pou orizw gia na kanw sort th lista twn rooms, mesw tou stimulus controller sort_rooms -->
+  <%= turbo_frame_tag dom_id(room) do %>
+    <li class="list-group-item  <%= check_if_active %> rounded m-1">
+      <div class="d-flex align-items-center justify-content-between">
+        <%= link_to room.name, room, class: 'list-room-name text-decoration-none', data: {turbo: "false"} %>
+        <div data-controller='check-admin' class='d-none'>
+          <%= button_to room, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm shadow-none remove-room-btn' do %>
+            <i class="bi bi-trash3-fill"></i>
+          <% end %>
+        </div>
+      </div>
+      <!-- se kathe neo message, kanw broadcast update sti lista me ta rooms, oti sto sygkekrimeno room to teleutaio mhnyma stalthike apo ton tade user kai pote -->
+      <%= turbo_frame_tag [dom_id(room), "last_public_message"] do %>  <!-- target: "room_{id} last_public_message" -->
+        <%= render "rooms/latest_message", room: room, user: user, last_message: last_message %>
+      <% end %>
+    </li>
+  <% end %>
+</div>

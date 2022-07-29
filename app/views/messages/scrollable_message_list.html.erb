@@ -1,0 +1,6 @@
+<!-- idia logiki me to pagination pou exw se posts kai comments, me th diafora oti exw pagination kanontas scrolling pros ta panw-->
+<!-- ara panw apo ta messages tha exw to turbo frame to opoio otan ginetai visible kanontas scroll up opou teleiwnei i lista twn messages tis selidas kanei lazy load ta messages tis epomenhs -->
+<%= turbo_frame_tag "messages-page-#{@cursor}" do %>
+  <%= render partial: "messages/next_message_page" %>
+  <%= render @messages %>
+<% end %>

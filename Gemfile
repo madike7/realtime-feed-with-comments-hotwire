@@ -52,6 +52,5 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-#gem "acts_as_votable", "~> 0.13.2"
-
 gem "ruby-oembed", "~> 0.12.0", require: "oembed"
+gem "noticed", "~> 1.5"

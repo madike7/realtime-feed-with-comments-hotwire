@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  #get 'users/profile'
+  get 'rooms/index'
+  get 'users/profile'
+  get 'users/show'
   devise_for :users
   
   resources :posts do
@@ -9,6 +11,13 @@ Rails.application.routes.draw do
 
   resources :comments
 
+  resources :rooms do
+    resources :messages, shallow: :true
+    collection do
+      post :search
+    end
+  end
+
   resources :embeds, only: [:create], constraints: { id: /[^\/]+/ } do
     collection do
       get :patterns
@@ -17,6 +26,7 @@ Rails.application.routes.draw do
   
   resources :mentions, only: [:index]
   
-  get ':username', to: 'users#profile', as: 'user'  #user_path(user.username) gia na parw to profile enos user
+  get ':username', to: 'users#profile', as: 'user_profile'  #user_path(user.username) gia na parw to profile enos user
+  get 'user/:id', to: 'users#show', as: 'user'  # private chat room
   root 'posts#index'
 end

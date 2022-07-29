@@ -1,0 +1,80 @@
+// Place all the styles related to the messages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+.upload-button {
+  padding: 10px;
+  font-size: 25px;
+}
+.upload-button:hover {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+#preview-recordings {
+  position: absolute;
+  display: inline;
+  background: radial-gradient(#000727, #286265c2);
+  bottom: 50px;
+  height: 105px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.recording-preview {
+  position: relative;
+  display: inline-block;
+  color: #ccd6e4;
+  top: 30px;
+  width: 50px;
+  height: 50px;
+  max-height: 50px;
+  background-size: contain;
+  font-size: 50px;
+  text-align: bottom;
+  vertical-align: middle;
+  line-height: 0px;
+}
+
+.record-video-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.record-video-icon:hover {
+  opacity: 0.75;
+}
+
+.record-audio-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.record-audio-icon:hover {
+  opacity: 0.75;
+}
+
+.cancel-btn {
+  position: absolute;
+  top: -25px;
+  right: 30%;
+  font-size: 15px;
+  padding: 3px;
+  color: red;
+  opacity: 0.75;
+}
+
+.cancel-btn:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.video-file {
+  height: 250px;
+}
+
+.hidden {
+  display: none;
+}

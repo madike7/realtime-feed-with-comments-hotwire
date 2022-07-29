@@ -4,7 +4,7 @@
         "user-page-#{@next_cursor}", # unique id me ton cursor pou deixnei sto id tou last.post tis listas 
         #autoscroll: true,
         loading: :lazy, # lazy loading wsta na emfanizontai ta epomena post mono otan to turbo frame einai orato stin othoni, kai an mhn fortwnontai oles oi selides an den ftasw sto telos kathe mias
-        src: user_path(cursor: @next_cursor),
+        src: user_profile_path(cursor: @next_cursor),
         target: "_top"
       ) do %>
     <div class="d-flex justify-content-center mt-2">

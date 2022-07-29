@@ -1,0 +1,25 @@
+<!-- forma dhmiourgias enos message pou anhkei se ena room, gia na ginei clear h forma sto submit xrhsimopoiw ton controller reset-form -->
+<div class="form-group message-form">
+  <%= form_with(model: [@chat_room, @message], remote: true, class:'d-flex',  # remote: true gia na kanw submit on enter
+    data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }, id: "msg-form") do |f| %>
+    <!-- O container ston opoio  emfanizw ta preview twn recordings prin kanw submit ti forma. -->
+    <div id="preview-recordings" class="d-none card" data-controller="record-and-preview" data-action="record-and-preview#previewRecordings"></div>
+    
+    <!-- ta icons gia to video kai audio recording pou exw san button gia na ksekinhsw kai na stamathsw to video recording -->
+    <!-- to xrhsimopoiw ston preview_uploads controller mesw tou id tou -->
+    <%= content_tag(:i, nil, id: 'record-video-btn', class: 'bi bi-camera-video record-video-icon') %>
+    <%= content_tag(:i, nil, id: 'record-audio-btn', class: 'bi bi-mic ms-2 me-1 record-audio-icon') %>
+
+    
+    <%= f.label :recordings, hidden: true %>  <!-- label gia to id tou input pou einai to "message_recordings" -->
+    <!-- file_field gia na kanw upload ta recordings -->
+    <!-- hidden: true gia na mhn kanei upload apeutheias arxeia apo ti syskeyh -->
+    <!-- mesw tou controller preview_uploads otan kanw ena recording, to kanw attach se auto to file_field -->
+    <!-- akouw gia change event, kai kathe fora pou prostithentai recordings sto file_field, kalw tin previewRecordings tou controller pou emfanizei ta previews twn recordings pou kanw attach -->
+    <%= f.file_field(:recordings, hidden: true, multiple: true, data: { controller: "record-and-preview", action:"change->record-and-preview#previewRecordings"}) %> 
+    
+    <%= f.text_field :body, class: 'form-control message-body', autocomplete: 'off' %>  <!-- pedio gia to message body -->
+    <!-- sto submit, kalw tin resetPreviews tou controller, wste na afairesw ta previews twn recordings pou molis ekana submit kathws kai ton container pou ta perieixe -->
+    <%= f.submit "Send", data: {disable_with: false, controller: "record-and-preview", action:"click->record-and-preview#resetPreviews"}, class: 'btn btn-primary' %> 
+  <% end %>
+</div>

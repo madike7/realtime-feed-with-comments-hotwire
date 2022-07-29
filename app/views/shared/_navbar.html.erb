@@ -8,7 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<%= root_path %>">Home</a>
+          <a class="nav-link active" aria-current="page" href="<%= root_path %>">Fanwall</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="<%= rooms_path %>">Chat</a>
         </li>
       </ul>
       <span class="navbar-text ms-auto"><%= Time.zone.now %></span> <!-- metafora apo to application.html.erb sto navbar -->
@@ -16,7 +19,10 @@
         <li class="nav-item dropdown">
           <% if current_user %>
     		    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    		      <% if current_user.avatar.attached? %>
+    		      <% if current_user.admin? %>
+                <h4 class="badge rounded-pill bg-success me-1 m-0">ADMIN</h4>
+              <% end %>
+              <% if current_user.avatar.attached? %>
         			  <%= image_tag current_user.avatar.variant(resize: "40x40!"), class: "rounded-circle" %>
         		  <% else %>
         			  <%= image_tag current_user.gravatar_url, height: 40, width: 40, class: "rounded-circle"%>
@@ -24,7 +30,7 @@
               <span class="username-color"><%= current_user.username %></span>
     		    </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item bi bi-person-circle" href="<%= user_path(current_user.username) %>"> <span class="ms-2">My Profile</span></a>
+              <a class="dropdown-item bi bi-person-circle" href="<%= user_profile_path(current_user.username) %>"> <span class="ms-2">My Profile</span></a>
               <a class="dropdown-item bi bi-person-lines-fill" href="<%= edit_user_registration_path %>"> <span class="ms-2">Edit Account</span></a>
               <div class="dropdown-divider"></div>
               <%= button_to destroy_user_session_path, method: :delete, class: 'dropdown-item', "data-turbo": false do %>

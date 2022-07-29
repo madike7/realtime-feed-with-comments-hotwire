@@ -1,0 +1,23 @@
+<% if @more_pages %> <!-- idia logiki me to pagination pou exw se posts kai comments-->
+  <%= turbo_frame_tag(
+        "messages-page-#{@next_cursor}",
+        loading: :lazy,
+        src: url_for(cursor: @next_cursor), # to url_for me voithaei giati pairnei to current url analoga me poion contoller douleuw (users gia ta private rooms, kai rooms gia ta public rooms)
+        # An epairna san src: room_path, den tha douleue gia ta private chats tou usersController kathws gia ekeina xreiazomai to user_path
+        # tha eprepe na dhmiourghsw to idio partial view gia to user controller kai na pernaw san src to user_path kai sto index na elegxw ean to room einai private h oxi
+        # px. sto index ->   if @chat_room.is_private 
+        #                      render partial: "users/next_message_page"
+        #                    else
+        #                      render partial: "messages/next_message_page"
+        #                    end
+        target: "_top"
+      ) do %>
+    <div class="d-flex justify-content-center loading">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p class=" mb-2 text-center fw-bold fst-italic">You've reached the end of this room's messages.</p>
+<% end %>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- check_current_user_controller.js elegxos gia current user -->
     <meta name="current-user-id" content="<%= current_user&.id %>">
+    <meta name="current-user-role" content="<%= current_user&.role %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <!-- bootstrap 5 -->
@@ -14,6 +15,21 @@
     <!-- turbo -->
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
+
+    <!-- thelw ta mhnymata tou current user na emfanizontai mono gi auton stin deksia meria tou chat kai na exoun mple xrwma -->
+    <!-- opote otan ginetai render to partial gia kathe chat message _message.html.erb, allazw to styling gia ton current_user -->
+    <!-- to kanw me auto ton tropo, giati den mporw na kalesw to global current_user mesa se partial pou to kanw turbo broadcast -->
+    <style>
+      <%= ".message-container-user-#{current_user&.id}"%> {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 0.5rem!important;
+      }
+      <%= ".message-user-#{current_user&.id}"%> {
+        /*background-color: #007bff !important;*/
+        background-color: #165b8b !important;
+      }
+    </style>
   </head>
 
   <body>

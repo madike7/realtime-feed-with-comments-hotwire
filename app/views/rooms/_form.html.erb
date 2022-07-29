@@ -1,0 +1,8 @@
+<!-- forma dhmiourgias enos room, gia na ginei clear h forma sto submit xrhsimopoiw ton controller reset-form -->
+<% if current_user&.admin? %> <!-- epitrepw mono se admins na dhmiourgoun public rooms -->
+  <%= form_with(model: @room, remote: true, class:'d-flex m-1',
+    data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset"}) do |f| %>
+    <%= f.text_field :name, class: 'form-control', autocomplete: 'off', placeholder: 'Add new room' %>
+    <%= f.submit data: { disable_with: false }, class: 'ms-1 btn btn-primary btn-sm' %>
+  <% end %>
+<% end %>

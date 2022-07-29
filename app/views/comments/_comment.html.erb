@@ -10,7 +10,7 @@
           <%= render partial: 'comments/comment_avatar', locals: { comment: comment } %> <!-- kanw render to partial pou emfanizei to avatar tou comment.user -->
         </div>
         <div class="w-100" style="overflow: hidden;">
-          <div class="d-flex flex-row align-items-center"> <strong class="me-2"><%= link_to comment.user.username, user_path(comment.user.username), target: '_top', class: 'username-color' %></strong> <span class="dot"> </span> <small class="ms-2 text-muted"> <%= time_ago_in_words(comment.created_at) %> ago </small> <span class="ms-2 text-muted"> #<%= comment.id %> </span>
+          <div class="d-flex flex-row align-items-center"> <strong class="me-2"><%= link_to comment.user.username, user_profile_path(comment.user.username), target: '_top', class: 'username-color' %></strong> <span class="dot"> </span> <small class="ms-2 text-muted"> <%= time_ago_in_words(comment.created_at) %> ago </small> <span class="ms-2 text-muted"> #<%= comment.id %> </span>
             <div class="d-flex ms-auto d-none"
               data-controller='check-author'
               data-check-author-author-id-value='<%= comment.user.id %>' > <!-- elegxw opws kai sto post partial, an o current user einai o comment author gia na emfanisw ta edit kai delete buttons -->

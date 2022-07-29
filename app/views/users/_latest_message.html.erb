@@ -1,0 +1,15 @@
+<% unless last_message.nil? %>  <!-- elegxw oti yparxei last_message sto private room, wste an den yparxei na mhn emfanizw kati sti lista me tous users -->
+  <div class="d-flex align-items-center justify-content-between mt-1">
+    <div class="latest-msg fst-italic me-1">
+      <% unless last_message.body.blank? %> <!-- an to message exei kai text -->
+        <%= link_to last_message.user.username, last_message.user, class: "text-decoration-none username-#{last_message.user.role}", data: {turbo: "false"} %>
+        <%= ": #{last_message.body}".truncate(30) %>  <!-- emfanizw ena truncated preview tou message body gia na mhn pianei xwro -->
+      <% else %>  <!-- an exei mono recordings attached kai oxi text, emfanizw oti o user esteile recording -->
+        <%= link_to last_message.user.username, last_message.user, class: "text-decoration-none username-#{last_message.user.role}", data: {turbo: "false"} %> sent a recording!
+      <% end %>
+    </div>
+    <%= content_tag(:div, class: "latest-msg-time fst-italic ms-1", data: { time: last_message.created_at.to_i }) do %> <!-- thelw na kanw compare to created time tou last message apo kathe room, wste na kanw ta rooms sort me vash auto -->
+      <%= "#{time_ago_in_words(last_message.created_at)} ago" %>
+    <% end %>
+  </div>
+<% end %>
