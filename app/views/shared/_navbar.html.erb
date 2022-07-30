@@ -29,7 +29,7 @@
         		  <% end %>
               <span class="username-color"><%= current_user.username %></span>
     		    </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu dropdown-menu-end dropdown-bg" aria-labelledby="navbarDropdown">
               <a class="dropdown-item bi bi-person-circle" href="<%= user_profile_path(current_user.username) %>"> <span class="ms-2">My Profile</span></a>
               <a class="dropdown-item bi bi-person-lines-fill" href="<%= edit_user_registration_path %>"> <span class="ms-2">Edit Account</span></a>
               <div class="dropdown-divider"></div>

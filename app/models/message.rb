@@ -40,7 +40,9 @@ class Message < ApplicationRecord
   end
 
   def update_room_with_latest_message
-    room.update(latest_message: Time.now) # kanw update tin wra sto latest_message column tou room meta apo kathe created message
+    unless room.destroyed? # elegxw oti den exei diagrafei to public room, wste na mhn exw error an den yparxei room kai kanw update to latest message time column
+      room.update(latest_message: Time.now) # kanw update tin wra sto latest_message column tou room meta apo kathe created message
+    end
   end
 
   private

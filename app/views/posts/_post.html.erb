@@ -35,7 +35,7 @@
           <button type="button" class="btn shadow-none dropdown" data-bs-toggle="dropdown">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
-          <div class="dropdown-menu dropdown-menu-end"> <!-- dropdown me tis epiloges edit kai delete post -->
+          <div class="dropdown-menu dropdown-menu-end dropdown-bg"> <!-- dropdown me tis epiloges edit kai delete post -->
             <!-- EDIT BUTTON -->
             <%= link_to edit_post_path(post), class: 'dropdown-item btn shadow-none bi bi-pencil-fill', data: { turbo_frame: dom_id(post) } do %>
               <span class="ms-2">Edit Post</span>

@@ -5,8 +5,9 @@ class MessagesController < ApplicationController
 
     unless @message.room.nil? #an to post exei diagrafei kai o user einai sto show h epixeirhsei na paei sto url tou, kanw redirect
       unless @message.save
+        flash.now[:alert] = @message.errors.full_messages.join(', ')
         render turbo_stream:
-          turbo_stream.update('flash', partial: 'shared/flash', locals: { message: @message.errors.full_messages.join(', ') })
+          turbo_stream.prepend('flash', partial: 'shared/flash')
       end
     else
       redirect_to rooms_path, alert: "Chatroom was not found"

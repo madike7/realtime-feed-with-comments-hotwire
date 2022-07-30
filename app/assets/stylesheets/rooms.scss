@@ -91,6 +91,10 @@
   opacity: 0.75;
 }
 
+.dropdown-bg {
+  background: #394046;
+}
+
 .dropdown-color {
   background:#2c4559 !important;
 }
@@ -111,7 +115,6 @@
 }
 
 .message-body {
-  width: 80%;
   margin-right: 5px;
 }
 
@@ -223,6 +226,7 @@
 }
 
 .crnt-user {
+  position: unset !important;
   height: 55px;
   color: #ffffff !important;
   background-color: inherit !important;

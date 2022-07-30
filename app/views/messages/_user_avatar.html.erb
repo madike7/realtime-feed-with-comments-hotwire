@@ -38,7 +38,7 @@
       <li><%= link_to user, class:'dropdown-item rounded me-1 d-flex justify-content-between', data: {turbo: "false"} do %>
             Direct Message <i class="bi bi-envelope-fill"></i>
       <% end %></li>
-      <li><a class="dropdown-item rounded me-1 d-flex justify-content-between" href="#">View Profile <i class="bi bi-person-circle"></i></a></li>
+      <li><a class="dropdown-item rounded me-1 d-flex justify-content-between" href="<%= user_profile_path(user.username) %>" target="_top">View Profile <i class="bi bi-person-circle"></i></a></li>
 
     </ul>
   </div>

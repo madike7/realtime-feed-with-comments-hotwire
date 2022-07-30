@@ -47,6 +47,11 @@
           </div>
           <div class="text-center profile-meta mt-3">
             <strong class="join-date">Joined <%= @user.created_at.strftime("%B %Y") %> </strong>
+            <div class="mt-1 fw-bold">
+              <%= link_to @user, class:"text-decoration-none profile-dm" do %>
+                Send private message <i class="bi bi-envelope-fill"></i>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
