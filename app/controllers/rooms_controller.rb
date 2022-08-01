@@ -10,8 +10,8 @@ class RoomsController < ApplicationController
 
   def index
     @room = Room.new  # gia na dhmiourghsw neo room mesw tis formas
-    #@rooms = Room.only_public_rooms  # me to @rooms thelw na parw ola ta public rooms mesw tou scope sto model Room
-
+    
+    # me to @rooms thelw na parw ola ta public rooms mesw tou scope sto model Room
     @rooms = Room.only_public_rooms.order('latest_message DESC')  # ta kanw sort me vash to time tou teleutaiou message
     
     # thelw na parw olous tous users ektos apo ton current_user mesw tou scope sto model User 
@@ -26,7 +26,7 @@ class RoomsController < ApplicationController
   def show # Gia ta public (group) chats, thelw na paramenw stin idia selida kai na emfanizw to chat room sto plai
     # gia na ginei auto, vazw oles tis metablhtes tou index sto method show, kai etsi ginetai render kai to index page mazi
     
-    #@chat_room = Room.find(params[:id]) # setting the chat_room, to xrhsimopoiw stin forma pou dhmiourgw ta messages gia to chat_room
+    # setting the chat_room, to xrhsimopoiw stin forma pou dhmiourgw ta messages gia to chat_room
     @chat_room = Room.find_by(id: params[:id])
     if @chat_room.nil?
       redirect_to rooms_path, alert: "Chatroom was not found" # ean exei diagrafei ena chatroom, kanw redirect
@@ -37,7 +37,6 @@ class RoomsController < ApplicationController
       @rooms = Room.only_public_rooms.order('latest_message DESC')  # ta kanw sort me vash to time tou teleutaiou message
 
       @room = Room.new  # gia na dhmiourghsw neo room mesw tis formas
-      #@users = User.all_users_except(current_user)  # mporw na dw ti lista me tous users ektos tou eautou mou
       
       @all_users = User.all_users_except(current_user) # lista me olous tous xrhstes ektos tou eautou mou
       @users = user_search  # anazhthsh gia users

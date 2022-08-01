@@ -23,10 +23,9 @@ class UsersController < ApplicationController
 
   def show  # Gia ta private chats, thelw na paramenw stin idia selida kai na emfanizw to chat room sto plai
     # gia na ginei auto, vazw oles tis metablhtes tou RoomsController#index sto method show, kai etsi ginetai render kai to index page mazi
-    # orizw ta @user, @users, kai @all_users
+    # orizw ta @user kai @all_users
     @user = User.find(params[:id]) # o user me ton opoio kanw private chat, to xrhsimopoiw kai san to onoma tou private room
-    #@users = User.all_users_except(current_user) # olous ektos tou current user
-    @all_users = User.all_users_except(current_user)
+    @all_users = User.all_users_except(current_user)  # olous ektos tou current user, gia ti lista twn users me tous opoious mporw na kanw private chat
 
     # gia tin anazhthsh xrhstwn, an den exw anazhthsei kati, provalw ena empty list.
     # alliws provallw ta results tis anazitisis

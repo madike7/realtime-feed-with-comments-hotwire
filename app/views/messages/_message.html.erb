@@ -6,8 +6,8 @@
       <div class="d-flex align-items-center justify-content-between">
         <%= render 'messages/user_avatar', user: message.user, message: message %> <!-- partial pou emfanizei to avatar kai to username tou user pou esteile to mhnyma -->
         <div class="d-none" 
-             data-controller='check-author'
-             data-check-author-author-id-value='<%= message.user.id %>'>  <!-- controller pou elegxei an o current user einai o message owner wste na emfanizw button gia na to kanei delete -->
+             data-controller='check-message-author'
+             data-check-message-author-author-id-value='<%= message.user.id %>'>  <!-- controller pou elegxei an o current user einai o message owner H admin, wste na emfanizw button gia na to kanei delete -->
           <%= button_to message_path(message), class: "btn btn-sm shadow-none", method: :delete, data: { confirm: "Are you sure?" } do %> <!-- destroy message -->
             <i class="bi bi-trash-fill msg-destroy"></i>
           <% end %>
