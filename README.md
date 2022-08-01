@@ -2,7 +2,7 @@
 
 <details>
   
-  <summary>Video previews of the FORUM (Posts feed) part</summary>
+  <summary>Video previews of the FORUM (Posts feed)</summary>
 
   https://user-images.githubusercontent.com/10998852/174688795-7a29198b-43d0-4ca4-a624-b6db7f288c55.mp4
 
@@ -48,7 +48,7 @@
 
 <details>
   
-  <summary>Video previews of the CHAT (Public and private rooms with recordings) part</summary>
+  <summary>Video previews of the CHAT (Public and private rooms with recordings)</summary>
   
 
   https://user-images.githubusercontent.com/10998852/182148784-218414af-1266-4272-9dcf-6a5e26e7c3e1.mp4
