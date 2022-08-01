@@ -2,7 +2,7 @@
 
 <details>
   
-  <summary>Video previews of the app</summary>
+  <summary>Video previews of the FORUM (Posts feed) part</summary>
 
   https://user-images.githubusercontent.com/10998852/174688795-7a29198b-43d0-4ca4-a624-b6db7f288c55.mp4
 
@@ -44,5 +44,46 @@
 
   
   https://user-images.githubusercontent.com/10998852/174689491-20cdd0df-0fa2-4d63-bf8f-917e1bf787b7.mp4
+</details>
+
+<details>
+  
+  <summary>Video previews of the CHAT (Public and private rooms with recordings) part</summary>
+  
+
+  https://user-images.githubusercontent.com/10998852/182148784-218414af-1266-4272-9dcf-6a5e26e7c3e1.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148799-723b2535-d351-4913-a277-d3e7184d7ba3.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148809-c04571f7-2324-4ecf-86f2-28a5e49c58b1.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148818-4d5c53e1-210c-4f8d-b2ad-3857ae22e9aa.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148828-773bde37-9c6e-4646-a9ff-5704a26f08f7.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148845-e338b711-4424-4b1b-ad98-042f1a22fd23.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148879-30d2e507-b0b4-4c9b-b595-6de79dcc22af.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148890-52e847c1-30f8-4009-aedc-a94c0f659d4d.mp4
+
+
+
+  https://user-images.githubusercontent.com/10998852/182148898-012ec76a-cdf0-40c3-8f65-8f7fdec09324.mp4
+
 
 </details>
